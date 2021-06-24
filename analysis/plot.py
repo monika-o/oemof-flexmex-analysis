@@ -83,9 +83,20 @@ def stacked_scalars_1country(df_plot, title, ylabel, xlabel):
     plt.legend(bbox_to_anchor=(1,1), loc="upper left")
     plt.savefig(os.path.join(os.path.dirname(__file__), '../results/' + title), bbox_inches='tight')
 
-def preprocessing_timeseries (inputdatapath):
+def preprocessing_timeseries (inputdatapath, type):
     input_file = os.path.join(os.path.dirname(__file__),
                               inputdatapath)
     df_in = pd.read_csv(input_file, index_col='timeindex')
-    df_in = df_in['load']
+    df_in = df_in[type]
     return(df_in)
+
+def plot_timeseries_weekly (df_in, label, title, xlabel, ylabel):
+    fig = plt.figure()
+    fig, ax = plt.subplots()
+    ax.plot(df_in.iloc[0:156 * 4], label=label)
+    ax.set_title(title)
+    # TODO: Question: yearly energy or yearly electricity demand?
+    ax.set_ylabel(ylabel)
+    ax.set_xlabel(xlabel)
+    ax.legend()  # loc='upper center', bbox_to_anchor=(1.45, 0.8), shadow=True, ncol=1)
+    plt.savefig(os.path.join(os.path.dirname(__file__), '../results/' + title), bbox_inches='tight')

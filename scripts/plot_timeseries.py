@@ -3,7 +3,9 @@ import matplotlib.pyplot as plt
 import os
 
 from analysis.plot import preprocessing_timeseries
+from analysis.plot import plot_timeseries_weekly
 
+# The use of the countrycode list would have only been helpful in a for-loop.
 countrycode = ['AT', 'BE', 'CH', 'CZ', 'DE', 'DK', 'FR', 'IT', 'LU', 'NL', 'PL']
 
 df_in = preprocessing_timeseries('../../oemof-flexmex/data/In/v0.09/Energy/FinalEnergy/Electricity/'
@@ -21,16 +23,8 @@ df_in_unnormalised = df_in * yearly_electricity.values
 Summe = sum(df_in_unnormalised)
 print(Summe)
 
-fig = plt.figure()
-fig, ax = plt.subplots()
-ax.plot(df_in_unnormalised.iloc[0:156*4], label=countrycode[4])
-ax.set_title('Electricity demand in all scenarios')
-# TODO: Question: yearly energy or yearly electricity demand?
-ax.set_ylabel('hourly electricity demand [GW (el)]')
-ax.set_xlabel('hours')
-ax.legend()#loc='upper center', bbox_to_anchor=(1.45, 0.8), shadow=True, ncol=1)
-
-plt.savefig(os.path.join(os.path.dirname(__file__), '../results/electricity_demand_timeseries_4weeks.png'), bbox_inches='tight')
+plot_timeseries_weekly(df_in_unnormalised, countrycode[4], 'Electricity demand in all scenarios', 'hourly electricity demand [GW (el)]',
+                       'hours')
 
 fig = plt.figure()
 fig, ax = plt.subplots()
