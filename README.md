@@ -2,7 +2,7 @@
 # Analysis of the results from oemof-flexmex
 
 
-This is a little program made to analyze the results obtained from running the energy
+This is a little program made to analyse the results obtained from running the energy
 system model [oemof-flexmex](https://github.com/modex-flexmex/oemof-flexmex). 
 It mainly consists of functions for plotting data from the oemof.tabular format.
 
