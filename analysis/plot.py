@@ -90,13 +90,19 @@ def preprocessing_timeseries (inputdatapath, type):
     df_in = df_in[type]
     return(df_in)
 
-def plot_timeseries_weekly (df_in, label, title, xlabel, ylabel):
+def plot_timeseries_weekly (df_in, timeframe, label, title, xlabel, ylabel):
     fig = plt.figure()
     fig, ax = plt.subplots()
-    ax.plot(df_in.iloc[0:156 * 4], label=label)
+    if timeframe == 'weeks':
+        ax.plot(df_in.iloc[0:156 * 4], label=label)
+    elif timeframe == 'year':
+        # one point for every day
+        ax.plot(df_in.iloc[range(0, 8760, 24)], label=label)
+    else:
+        print('Only weeks and year are possible timeframes')
     ax.set_title(title)
-    # TODO: Question: yearly energy or yearly electricity demand?
     ax.set_ylabel(ylabel)
     ax.set_xlabel(xlabel)
     ax.legend()  # loc='upper center', bbox_to_anchor=(1.45, 0.8), shadow=True, ncol=1)
     plt.savefig(os.path.join(os.path.dirname(__file__), '../results/' + title), bbox_inches='tight')
+    # TODO: adjust x-axis depending on timeframe (days or months would be good, not hours)

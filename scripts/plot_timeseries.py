@@ -23,8 +23,8 @@ df_in_unnormalised = df_in * yearly_electricity.values
 Summe = sum(df_in_unnormalised)
 print(Summe)
 
-plot_timeseries_weekly(df_in_unnormalised, countrycode[4], 'Electricity demand in all scenarios', 'hourly electricity demand [GW (el)]',
-                       'hours')
+plot_timeseries_weekly(df_in_unnormalised, 'weeks', countrycode[4], 'Electricity demand in all scenarios',
+                       'hourly electricity demand [GW (el)]', 'hours')
 
 fig = plt.figure()
 fig, ax = plt.subplots()
