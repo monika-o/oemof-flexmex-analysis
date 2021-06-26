@@ -1,3 +1,8 @@
+"""
+This script compared the capacities given in the input data with the capacities given in the results folder.
+It was made as support for improving oemof-flexmex.
+"""
+
 import os
 import pandas as pd
 
