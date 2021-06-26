@@ -29,7 +29,7 @@ Functions for creating stacked bar plots from a table in the scalars-table-forma
 must contain only one single country.
 """
 # TODO: use country as an input variable
-def preprocessing_stacked_scalars_1country(plot_data, factor, onxaxes): # put a factor here that the values should be devided be, e.g. 1 or 1000
+def preprocessing_stacked_scalars(plot_data, factor, onxaxes): # put a factor here that the values should be devided be, e.g. 1 or 1000
 
     df_plot_conversion_heat = pd.DataFrame()
     df_plot_conversion_electricity = pd.DataFrame()
@@ -48,10 +48,11 @@ def preprocessing_stacked_scalars_1country(plot_data, factor, onxaxes): # put a 
         plot_data = plot_data[~plot_data['Parameter'].str.contains('Storage')]
         if df_storage['Parameter'].str.contains('Heat').any():
             df_storage_heat = df_storage.loc[df_storage['Parameter'].str.contains('Heat'), :]
-            df_storage_electricity = df_storage[~df_storage['Parameter'].str.contains('Heat')]
             df_plot_storage_heat = pd.crosstab(index=df_storage_heat[onxaxes], columns=df_storage_heat.Parameter,
                                                values=df_storage_heat.Value / factor, aggfunc='mean')
-            df_plot_storage_electricity = pd.crosstab(index=df_storage_electricity[onxaxes],
+
+        df_storage_electricity = df_storage[~df_storage['Parameter'].str.contains('Heat')]
+        df_plot_storage_electricity = pd.crosstab(index=df_storage_electricity[onxaxes],
                                                       columns=df_storage_electricity.Parameter,
                                                       values=df_storage_electricity.Value / factor, aggfunc='mean')
     # do the same for separating heat and electricity, both for storage and for energy conversion
@@ -62,8 +63,6 @@ def preprocessing_stacked_scalars_1country(plot_data, factor, onxaxes): # put a 
                                               values=df_conversion_heat.Value / factor, aggfunc='mean')
     df_conversion_electricity = plot_data[~plot_data['Parameter'].str.contains('Heat')]
 
-    import pdb
-    pdb.set_trace()
 #        df_plot_conversion_heat = pd.crosstab(index=df_conversion_heat.UseCase, columns=df_conversion_heat.Parameter,
 #                                       values=df_conversion_heat.Value / factor, aggfunc='mean')
 #        df_plot_conversion_electricity = pd.crosstab(index=df_conversion_electricity.UseCase, columns=df_conversion_electricity.Parameter,
@@ -82,7 +81,7 @@ def preprocessing_stacked_scalars_1country(plot_data, factor, onxaxes): # put a 
 
     return df_plot_conversion_heat, df_plot_conversion_electricity, df_plot_storage_heat, df_plot_storage_electricity
 
-def stacked_scalars_1country(df_plot, title, ylabel, xlabel):
+def stacked_scalars(df_plot, title, ylabel, xlabel):
     df_plot.plot(kind='bar', stacked=True)#, color=colors)
     plt.axhline(0, color='black')
     plt.title(title)
