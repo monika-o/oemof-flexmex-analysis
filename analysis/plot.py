@@ -70,8 +70,13 @@ def preprocessing_stacked_scalars(plot_data, factor, onxaxes): # put a factor he
 
     df_plot_conversion_electricity = pd.crosstab(index=df_conversion_electricity[onxaxes], columns=df_conversion_electricity.Parameter,
                                            values=df_conversion_electricity.Value / factor, aggfunc='mean')
-
-
+    import pdb
+    pdb.set_trace()
+    #df_plot_conversion_electricity = \
+    #    df_plot_conversion_electricity.reindex(columns=['Energy_FinalEnergy_Electricity', 'Energy_FinalEnergy_Electricity_H2',
+    #                                                    'Energy_FinalEnergy_H2', 'SecondaryEnergy_Electricity_CH4_GT',
+    #                                                    'SecondaryEnergy_Electricity_RE', 'SecondaryEnergy_Electricity_Slack',
+    #                                                    'Curtailment_Electricity_RE'])
     # TODO: check is_unique, if not issue warning message
 
     #if df_plot.columns.str.contains('Curtailment').any():
@@ -82,12 +87,15 @@ def preprocessing_stacked_scalars(plot_data, factor, onxaxes): # put a factor he
     return df_plot_conversion_heat, df_plot_conversion_electricity, df_plot_storage_heat, df_plot_storage_electricity
 
 def stacked_scalars(df_plot, title, ylabel, xlabel):
-    df_plot.plot(kind='bar', stacked=True)#, color=colors)
-    plt.axhline(0, color='black')
-    plt.title(title)
-    plt.ylabel(ylabel)
-    plt.legend(bbox_to_anchor=(1,1), loc="upper left")
-    plt.savefig(os.path.join(os.path.dirname(__file__), '../results/' + title), bbox_inches='tight')
+    if df_plot.empty:
+        pass
+    else:
+        df_plot.plot(kind='bar', stacked=True)#, color=colors)
+        plt.axhline(0, color='black')
+        plt.title(title)
+        plt.ylabel(ylabel)
+        plt.legend(bbox_to_anchor=(1,1), loc="upper left")
+        plt.savefig(os.path.join(os.path.dirname(__file__), '../results/' + title), bbox_inches='tight')
 
 def preprocessing_timeseries (inputdatapath, type):
     input_file = os.path.join(os.path.dirname(__file__),
