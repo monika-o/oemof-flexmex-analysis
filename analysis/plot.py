@@ -122,13 +122,20 @@ def stacked_scalars(df_plot, title, ylabel, xlabel):
     if df_plot.empty:
         pass
     else:
-        df_plot.plot(kind='bar', stacked=True, color=colors)
+
         # Take care that Energy demand is always in the first row. It would have probably been easier to just add the
         # numbers without appending them to the dataframe.
+        import pdb
+        pdb.set_trace()
+        total_demand = 0
         if df_plot.columns.str.contains('Energy_FinalEnergy').any():
             total_demand = df_plot.iloc[0,:].sum()
-            plt.hlines(total_demand, plt.xlim()[0], plt.xlim()[1])
-
+            # The demand should be plotted only as a line and not as a stacked bar.
+            df_plot = df_plot.drop(df_plot.index[0])
+        df_plot.dropna(axis=1, inplace = True)
+        df_plot.plot(kind='bar', stacked=True, color=colors)
+        if total_demand > 0:
+            plt.hlines(total_demand, plt.xlim()[0], plt.xlim()[1], label='Demand')
         plt.axhline(0, color='black')
         plt.title(title)
         plt.xlabel(xlabel, fontsize = 12)
