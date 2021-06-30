@@ -22,7 +22,7 @@ df_1a_cap = df_1a.loc[df_1a['Parameter'].str.contains('Capacity'), :]
 df_1a_cap = df_1a_cap.dropna()
 
 df_plot_conversion_heat, df_plot_conversion_electricity, df_plot_storage_heat, df_plot_storage_electricity = \
-    preprocessing_stacked_scalars(df_1a_cap, 1, 'Region')
+    preprocessing_stacked_scalars(df_1a_cap, 1000, 'Region')
 stacked_scalars(df_plot_conversion_electricity, 'Installed capacities in all countries in scenario 2_1a' , 'Installed capacities in GW', 'scenario')
 
 # plot with installed capacities in Germany in all scenarios (right now only electricity conversion, but can easily be extended)
@@ -31,6 +31,6 @@ df_DE_cap = df_DE.loc[df_DE['Parameter'].str.contains('Capacity')]
 df_DE_MW = df_DE_cap.loc[df_DE['Unit'].str.contains('MW ')]
 
 df_plot_conversion_heat, df_plot_conversion_electricity, df_plot_storage_heat, df_plot_storage_electricity = \
-    preprocessing_stacked_scalars(df_DE_cap, 1, 'UseCase')
+    preprocessing_stacked_scalars(df_DE_cap, 1000, 'UseCase')
 
 stacked_scalars(df_plot_conversion_electricity, 'Installed capacities in the scenarios 2_1' , 'Installed capacities in GW', 'scenario')
