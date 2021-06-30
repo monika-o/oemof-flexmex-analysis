@@ -3,16 +3,48 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 colors = {'Solar_PV': '#bcbd22', 'Wind': '#407294', 'Wind_Offshore': '#1f77b4', 'Wind_Onshore': '#00ced1',
+          'SecondaryEnergy_Electricity_RE': '#069943',
+          'SecondaryEnergy_Electricity_Slack': '#bf3636',
+          'SecondaryEnergy_Heat_Slack': '#bf3636',
+          'SecondaryEnergy_Heat_ElectricityHeat_Large': '#3078a3',
+          'SecondaryEnergy_Heat_ElectricityHeat_Small': '#6fbeee',
+          'SecondaryEnergy_Heat_Electricity_Large': '#36b07b',
           'Hydro': '#bfd1ce',
+          'H2CavernStorage': '#54f2ff',
           'Biomass': '#2ca02c', 'CH4': '#d62728',
-          'CH4_GT': '#d62728', 'Nuclear': '#e4f200',
+          'SecondaryEnergy_Electricity_CH4_GT': '#6d562b', 'CH4_GT': '#6d562b',
+          'SecondaryEnergy_Heat_Gas_Large': '#b07911',
+          'SecondaryEnergy_Electricity_ElectricityHeat_CH4_ExCCGT': '#a81bc3',
+          'SecondaryEnergy_Heat_ElectricityHeat_CH4_ExCCGT': '#ca71db',
+          'Nuclear': '#e4f200',
           'Combustible Fuels': '#d62728', 'BAT discharge': '#9467bd',
           'Import': '#17becf', 'Shortage': '#ff7f0e', 'BAT charge': '#e377c2', 'Export': '#8c564b',
-          'Curtailment': '#7f7f7f', 'Curtailment_Electricity_RE': '#7f7f7f', 'Demand': '#000000',
+          'Curtailment': '#7f7f7f', 'Curtailment_Electricity_RE': '#7f7f7f',
+          'Demand': '#000000',
           'Solar Thermal': '#ecd70e', 'Geothermal': '#cdb79e', 'Tide, Wave and Ocean': '#133337',
           'Other Sources': '#e0d6ce',
           'LiIonBatteryCharge': '#ff80ed', 'LiIonBatteryDischarge': '#ffc0cb', 'LiIonBatteryStorage': '#cdb79e',
-          'SecondaryEnergy_Electricity_CH4_GT': '#6d562b'}
+          'Storage_Input_Electricity_LiIonBatteryStorage': '#a4a1e3',
+          'Storage_Losses_Electricity_LiIonBatteryStorage': '#694872',
+          'Storage_Output_Electricity_LiIonBatteryStorage': '#c321ee',
+          'Storage_Capacity_Heat_LargeStorage': '#ce2863',
+          'Storage_Capacity_Heat_SmallStorage': '#dd8ca8',
+          'Storage_Input_Heat_SmallStorage': '#e5ca8a',
+          'Storage_Input_Heat_LargeStorage': '#c321ee',
+          'Storage_Losses_Heat_SmallStorage': '#a39269',
+          'Storage_Losses_Heat_LargeStorage': '#858052',
+          'Storage_Output_Heat_SmallStorage': '#e5a305',
+          'Storage_Output_Heat_LargeStorage': '#f4df0b',
+          'Energy_FinalEnergy_Electricity': '#000000',
+          'Energy_FinalEnergy_Electricity_H2': '#5f7c83',
+          'Energy_FinalEnergy_Heat_CHP': '#292585',
+          'Energy_FinalEnergy_Heat_HeatPump': '#807be7',
+          'Transmission_Flows_Electricity_Grid': '#a9a9a9',
+          'Transmission_Losses_Electricity_Grid': '#69679f',
+          'Transport_AnnualDemand_Electricity_Cars': '#4740ec',
+          'Transport_FeedIn_DrivePower_Electricity': '#a4a1e3'
+
+          }
 
 """
 Import a specific range of data from energy_statistical_countrydatasheets.xlsx
@@ -30,7 +62,6 @@ must contain only one single country.
 """
 # TODO: use country as an input variable
 def preprocessing_stacked_scalars(plot_data, factor, onxaxes): # put a factor here that the values should be devided be, e.g. 1 or 1000
-
     df_plot_conversion_heat = pd.DataFrame()
     df_plot_conversion_electricity = pd.DataFrame()
     df_plot_storage_heat = pd.DataFrame()
@@ -57,11 +88,11 @@ def preprocessing_stacked_scalars(plot_data, factor, onxaxes): # put a factor he
                                                       values=df_storage_electricity.Value / factor, aggfunc='mean')
     # do the same for separating heat and electricity, both for storage and for energy conversion
     # It would be better to use a for loop for this (for dataframe in (plot_data, df_storage): ...
-    if plot_data['Parameter'].str.contains('Heat').any():
-        df_conversion_heat = plot_data.loc[plot_data['Parameter'].str.contains('Heat'), :]
+    if plot_data['Parameter'].str.contains('SecondaryEnergy_Heat').any():
+        df_conversion_heat = plot_data.loc[plot_data['Parameter'].str.contains('SecondaryEnergy_Heat|Energy_FinalEnergy_Heat'), :]
         df_plot_conversion_heat = pd.crosstab(index=df_conversion_heat[onxaxes], columns=df_conversion_heat.Parameter,
                                               values=df_conversion_heat.Value / factor, aggfunc='mean')
-    df_conversion_electricity = plot_data[~plot_data['Parameter'].str.contains('Heat')]
+    df_conversion_electricity = plot_data[~plot_data['Parameter'].str.contains('SecondaryEnergy_Heat|Energy_FinalEnergy_Heat')]
 
 #        df_plot_conversion_heat = pd.crosstab(index=df_conversion_heat.UseCase, columns=df_conversion_heat.Parameter,
 #                                       values=df_conversion_heat.Value / factor, aggfunc='mean')
@@ -70,8 +101,7 @@ def preprocessing_stacked_scalars(plot_data, factor, onxaxes): # put a factor he
 
     df_plot_conversion_electricity = pd.crosstab(index=df_conversion_electricity[onxaxes], columns=df_conversion_electricity.Parameter,
                                            values=df_conversion_electricity.Value / factor, aggfunc='mean')
-    import pdb
-    pdb.set_trace()
+
     #df_plot_conversion_electricity = \
     #    df_plot_conversion_electricity.reindex(columns=['Energy_FinalEnergy_Electricity', 'Energy_FinalEnergy_Electricity_H2',
     #                                                    'Energy_FinalEnergy_H2', 'SecondaryEnergy_Electricity_CH4_GT',
@@ -86,14 +116,23 @@ def preprocessing_stacked_scalars(plot_data, factor, onxaxes): # put a factor he
 
     return df_plot_conversion_heat, df_plot_conversion_electricity, df_plot_storage_heat, df_plot_storage_electricity
 
+
+
 def stacked_scalars(df_plot, title, ylabel, xlabel):
     if df_plot.empty:
         pass
     else:
-        df_plot.plot(kind='bar', stacked=True)#, color=colors)
+        df_plot.plot(kind='bar', stacked=True, color=colors)
+        # Take care that Energy demand is always in the first row. It would have probably been easier to just add the
+        # numbers without appending them to the dataframe.
+        if df_plot.columns.str.contains('Energy_FinalEnergy').any():
+            total_demand = df_plot.iloc[0,:].sum()
+            plt.hlines(total_demand, plt.xlim()[0], plt.xlim()[1])
+
         plt.axhline(0, color='black')
         plt.title(title)
-        plt.ylabel(ylabel)
+        plt.xlabel(xlabel, fontsize = 12)
+        plt.ylabel(ylabel, fontsize = 12)
         plt.legend(bbox_to_anchor=(1,1), loc="upper left")
         plt.savefig(os.path.join(os.path.dirname(__file__), '../results/' + title), bbox_inches='tight')
 
@@ -115,8 +154,8 @@ def plot_timeseries (df_in, timeframe, label, title, xlabel, ylabel):
     else:
         print('Only weeks and year are possible timeframes')
     ax.set_title(title)
-    ax.set_ylabel(ylabel)
-    ax.set_xlabel(xlabel)
+    ax.set_ylabel(ylabel, fontsize = 12)
+    ax.set_xlabel(xlabel, fontsize = 12)
     ax.legend()  # loc='upper center', bbox_to_anchor=(1.45, 0.8), shadow=True, ncol=1)
     plt.savefig(os.path.join(os.path.dirname(__file__), '../results/' + title), bbox_inches='tight')
     # TODO: adjust x-axis depending on timeframe (days or months would be good, not hours)
