@@ -38,7 +38,7 @@ df_energy = df_in.loc[df_in['Unit'].str.contains('GWh|GWh/a'), :]
 #df_energy_DE = df_energy.loc[df_energy['Region'] == 'DE', :]
 
 df_energy_DE = df_energy.loc[df_energy['Region'].str.contains('DE'), :]
-df_plot_conversion_heat, df_plot_conversion_electricity, df_plot_storage_heat, df_plot_storage_electricity \
+conversion_heat, conversion_electricity, storage_heat, storage_electricity, capacity_electricity, capacity_heat \
     = preprocessing_stacked_scalars(df_energy_DE, 1, 'UseCase')
 #for df in [df_plot_conversion_heat, df_plot_conversion_electricity, df_plot_storage_heat, df_plot_storage_electricity]:
 #    print("What should be the plot's title? e.g. 'Energy flows in Germany for FlexMex2_1'. "
@@ -47,7 +47,7 @@ df_plot_conversion_heat, df_plot_conversion_electricity, df_plot_storage_heat, d
 #    stacked_scalars(df, title, 'Energy in GWh', 'Scenario')
 print("Which scenario is this? FlexMex2_1 or FlexMex2_2?")
 scenario = input()
-stacked_scalars(df_plot_conversion_heat, 'Heat flows in Germany in ' + scenario, 'Energy in GWh', 'Scenario')
-stacked_scalars(df_plot_conversion_electricity, 'Electricity flows in Germany in ' + scenario, 'Energy in GWh', 'Scenario')
-stacked_scalars(df_plot_storage_heat, 'Heat flows in Germany in ' + scenario, 'Energy in GWh', 'Scenario')
-stacked_scalars(df_plot_storage_electricity, 'Electricity flows in Germany in ' + scenario, 'Energy in GWh', 'Scenario')
+stacked_scalars(conversion_heat, 'Heat flows in Germany in ' + scenario, 'Energy in GWh', 'Scenario')
+stacked_scalars(conversion_electricity, 'Electricity flows in Germany in ' + scenario, 'Energy in GWh', 'Scenario')
+stacked_scalars(storage_heat, 'Heat flows in Germany in ' + scenario, 'Energy in GWh', 'Scenario')
+stacked_scalars(storage_electricity, 'Electricity flows in Germany in ' + scenario, 'Energy in GWh', 'Scenario')
