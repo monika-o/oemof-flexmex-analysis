@@ -187,15 +187,13 @@ def plot_timeseries (df_in, timeframe, label, title, xlabel, ylabel):
         # one point for every day
         # ax.plot(df_in.iloc[range(0, 8760, 24)], label=label)
         # daily averages
-        ar = np.array(0)
+        ar = np.zeros(shape=365)
 
         for i in range (0, 365):
             start = i*24
             end = i*24 + 24
             day_mean = df_in.iloc[range(start, end)].mean()
-            ar = np.append(ar, day_mean)
-        import pdb
-        pdb.set_trace()
+            ar[i] = day_mean
         ax.plot(ar, label = label)
     else:
         print('Only weeks and year are possible timeframes')
