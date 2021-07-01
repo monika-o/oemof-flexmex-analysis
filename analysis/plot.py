@@ -1,8 +1,11 @@
 import os
 import pandas as pd
 import matplotlib.pyplot as plt
+import numpy as np
 
-colors = {'Solar_PV': '#bcbd22', 'Wind': '#407294', 'Wind_Offshore': '#1f77b4', 'Wind_Onshore': '#00ced1',
+colors = {'Solar_PV': '#bcbd22', 'Solar PV': '#bcbd22',
+          'Wind': '#407294', 'Wind_Offshore': '#1f77b4', 'Wind Offshore': '#1f77b4',
+          'Wind_Onshore': '#00ced1', 'Wind Onshore': '#00ced1',
           'SecondaryEnergy_Electricity_RE': '#069943',
           'SecondaryEnergy_Electricity_Slack': '#bf3636',
           'SecondaryEnergy_Heat_Slack': '#bf3636',
@@ -10,27 +13,33 @@ colors = {'Solar_PV': '#bcbd22', 'Wind': '#407294', 'Wind_Offshore': '#1f77b4', 
           'Capacity_Heat_ElectricityHeat_Large': '#3078a3',
           'Capacity_Heat_ElectricityHeat_Small': '#6fbeee',
           'SecondaryEnergy_Heat_ElectricityHeat_Small': '#6fbeee',
-
           'SecondaryEnergy_Heat_Electricity_Large': '#36b07b',
           'Capacity_Heat_Electricity_Large': '#36b07b',
           'Hydro': '#bfd1ce',
           'H2CavernStorage': '#54f2ff',
-          'Biomass': '#2ca02c', 'CH4': '#d62728',
+          'Biomass': '#2ca02c', 'CH4': '#d62728', 'CH4 GT': '#d62728',
           'Capacity_Heat_CH4_Large': '#d46566',
-          'SecondaryEnergy_Electricity_CH4_GT': '#6d562b', 'CH4_GT': '#6d562b',
+          'SecondaryEnergy_Electricity_CH4_GT': '#d62728', 'CH4_GT': '#d62728',
           'SecondaryEnergy_Heat_Gas_Large': '#b07911',
           'SecondaryEnergy_Electricity_ElectricityHeat_CH4_ExCCGT': '#a81bc3',
           'SecondaryEnergy_Heat_ElectricityHeat_CH4_ExCCGT': '#ca71db',
           'Capacity_ElectricityHeat_CH4_ExCCGT': '#e0a2ec',
-
+          'Capacity ElectricityHeat CH4 ExCCGT': '#e0a2ec',
           'Nuclear': '#e4f200',
-          'Combustible Fuels': '#d62728', 'BAT discharge': '#9467bd',
-          'Import': '#17becf', 'Shortage': '#ff7f0e', 'BAT charge': '#e377c2', 'Export': '#8c564b',
+          'Combustible Fuels': '#d62728',
+          'BAT discharge': '#9467bd',
+          'BAT charge': '#e377c2',
+          'Import': '#17becf',
+          'Shortage': '#ff7f0e',
+          'Export': '#8c564b',
           'Curtailment': '#7f7f7f', 'Curtailment_Electricity_RE': '#7f7f7f',
           'Demand': '#000000',
-          'Solar Thermal': '#ecd70e', 'Geothermal': '#cdb79e', 'Tide, Wave and Ocean': '#133337',
+          'Solar Thermal': '#ecd70e',
+          'Geothermal': '#cdb79e',
+          'Tide, Wave and Ocean': '#133337',
           'Other Sources': '#e0d6ce',
-          'LiIonBatteryCharge': '#ff80ed', 'LiIonBatteryDischarge': '#ffc0cb',
+          'LiIonBatteryCharge': '#ff80ed',
+          'LiIonBatteryDischarge': '#ffc0cb',
           'Storage_Capacity_Electricity_LiIonBatteryStorage': '#cdb79e',
           'LiIonBatteryStorage': '#cdb79e',
           'Storage_Input_Electricity_LiIonBatteryStorage': '#a4a1e3',
@@ -79,8 +88,6 @@ def preprocessing_stacked_scalars(plot_data, factor, onxaxes): # put a factor he
     df_plot_capacity_heat = pd.DataFrame()
     df_plot_capacity_electricity = pd.DataFrame()
 
-    import pdb
-    pdb.set_trace()
     if plot_data['Parameter'].str.contains('EnergyConversion_Capacity_Electricity').any():
         plot_data['Parameter'] = plot_data['Parameter'].str.replace('EnergyConversion_Capacity_Electricity_', '')
     if plot_data['Parameter'].str.contains('EnergyConversion_').any():
@@ -153,7 +160,7 @@ def stacked_scalars(df_plot, title, ylabel, xlabel):
             total_demand = df_plot.iloc[0,:].sum()
             # The demand should be plotted only as a line and not as a stacked bar.
             df_plot = df_plot.drop(df_plot.index[0])
-        df_plot.dropna(axis=1, inplace = True)
+        df_plot.dropna(axis=1, how='all', inplace = True)
         df_plot.plot(kind='bar', stacked=True, color=colors)
         if total_demand > 0:
             plt.hlines(total_demand, plt.xlim()[0], plt.xlim()[1], label='Demand')
@@ -178,7 +185,18 @@ def plot_timeseries (df_in, timeframe, label, title, xlabel, ylabel):
         ax.plot(df_in.iloc[0:156 * 4], label=label)
     elif timeframe == 'year':
         # one point for every day
-        ax.plot(df_in.iloc[range(0, 8760, 24)], label=label)
+        # ax.plot(df_in.iloc[range(0, 8760, 24)], label=label)
+        # daily averages
+        ar = np.array(0)
+
+        for i in range (0, 365):
+            start = i*24
+            end = i*24 + 24
+            day_mean = df_in.iloc[range(start, end)].mean()
+            ar = np.append(ar, day_mean)
+        import pdb
+        pdb.set_trace()
+        ax.plot(ar, label = label)
     else:
         print('Only weeks and year are possible timeframes')
     ax.set_title(title)
