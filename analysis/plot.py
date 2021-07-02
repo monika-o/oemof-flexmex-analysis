@@ -182,7 +182,7 @@ def plot_timeseries (df_in, timeframe, label, title, xlabel, ylabel):
     fig = plt.figure()
     fig, ax = plt.subplots()
     if timeframe == 'weeks':
-        ax.plot(df_in.iloc[0:156 * 4], label=label)
+        ax.plot(df_in.iloc[0:168 * 4], label=label)
     elif timeframe == 'year':
         # one point for every day
         # ax.plot(df_in.iloc[range(0, 8760, 24)], label=label)
@@ -191,15 +191,26 @@ def plot_timeseries (df_in, timeframe, label, title, xlabel, ylabel):
 
         for i in range (0, 365):
             start = i*24
-            end = i*24 + 24
+            end = (i+1)*24
             day_mean = df_in.iloc[range(start, end)].mean()
             ar[i] = day_mean
         ax.plot(ar, label = label)
+    # in order to show larger tendencies in wind power, here is another kind of plot with weekly averages
+    elif timeframe == 'year-rough':
+        ar = np.zeros(shape=52)
+        for i in range (0, 52):
+            start = i*168
+            end = (i+1)*168
+            week_mean = df_in.iloc[range(start, end)].mean()
+            ar[i] = week_mean
+        ax.plot(ar, label = label)
+    elif timeframe == 'day':
+        ax.plot(df_in.iloc[range(6*168, 6*168 + 24)], label=label) # the first day of the sixth week - the choice of the day is arbitrary
     else:
-        print('Only weeks and year are possible timeframes')
+        print('Only day, weeks, year and year-rough are possible timeframes')
     ax.set_title(title)
     ax.set_ylabel(ylabel, fontsize = 12)
     ax.set_xlabel(xlabel, fontsize = 12)
     ax.legend()  # loc='upper center', bbox_to_anchor=(1.45, 0.8), shadow=True, ncol=1)
-    plt.savefig(os.path.join(os.path.dirname(__file__), '../results/' + title), bbox_inches='tight')
+    plt.savefig(os.path.join(os.path.dirname(__file__), '../results/timeseries/' + title), bbox_inches='tight')
     # TODO: adjust x-axis depending on timeframe (days or months would be good, not hours)
