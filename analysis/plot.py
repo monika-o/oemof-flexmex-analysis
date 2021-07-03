@@ -3,11 +3,14 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
 
+# from analysis import colors
 colors = {'Solar_PV': '#bcbd22', 'Solar PV': '#bcbd22',
           'Wind': '#407294', 'Wind_Offshore': '#1f77b4', 'Wind Offshore': '#1f77b4',
           'Wind_Onshore': '#00ced1', 'Wind Onshore': '#00ced1',
           'SecondaryEnergy_Electricity_RE': '#069943',
+          'EnergyConversion_SecondaryEnergy_Electricity_RE': '#069943',
           'SecondaryEnergy_Electricity_Slack': '#bf3636',
+          'EnergyConversion_SecondaryEnergy_Electricity_Slack': '#bf3636',
           'SecondaryEnergy_Heat_Slack': '#bf3636',
           'SecondaryEnergy_Heat_ElectricityHeat_Large': '#3078a3',
           'Capacity_Heat_ElectricityHeat_Large': '#3078a3',
@@ -29,6 +32,7 @@ colors = {'Solar_PV': '#bcbd22', 'Solar PV': '#bcbd22',
           'Biomass': '#2ca02c', 'CH4': '#d62728', 'CH4 GT': '#d62728',
           'Capacity_Heat_CH4_Large': '#d46566',
           'SecondaryEnergy_Electricity_CH4_GT': '#d62728', 'CH4_GT': '#d62728',
+          'EnergyConversion_SecondaryEnergy_Electricity_CH4_GT': '#d62728',
           'SecondaryEnergy_Heat_Gas_Large': '#b07911',
           'SecondaryEnergy_Electricity_ElectricityHeat_CH4_ExCCGT': '#a81bc3',
           'SecondaryEnergy_Heat_ElectricityHeat_CH4_ExCCGT': '#ca71db',
@@ -42,6 +46,7 @@ colors = {'Solar_PV': '#bcbd22', 'Solar PV': '#bcbd22',
           'Shortage': '#ff7f0e',
           'Export': '#8c564b',
           'Curtailment': '#7f7f7f', 'Curtailment_Electricity_RE': '#7f7f7f',
+          'EnergyConversion_Curtailment_Electricity_RE': '#7f7f7f',
           'Demand': '#000000',
           'Solar Thermal': '#ecd70e',
           'Geothermal': '#cdb79e',
@@ -68,12 +73,14 @@ colors = {'Solar_PV': '#bcbd22', 'Solar PV': '#bcbd22',
           'Energy_FinalEnergy_Heat_CHP': '#292585',
           'Energy_FinalEnergy_Heat_HeatPump': '#807be7',
           'Transmission_Flows_Electricity_Grid': '#a9a9a9',
+          'Transmission_Incoming': '#9f6262',
+          'Transmission_Outgoing': '#ab7777',
+          'Transmission_Losses': '#631717',
           'Transmission_Losses_Electricity_Grid': '#69679f',
           'Transport_AnnualDemand_Electricity_Cars': '#4740ec',
           'Transport_FeedIn_DrivePower_Electricity': '#a4a1e3'
 
           }
-
 """
 Import a specific range of data from energy_statistical_countrydatasheets.xlsx
 """
@@ -158,61 +165,6 @@ def preprocessing_stacked_scalars(plot_data, factor, onxaxes): # put a factor he
 
 # The above preprocessing function has become too complicated and doesn't work for electricity flows in FlexMex2_2 now.
 # This is why I now write explicit functions for all the plot_dataframes I need.
-def conversion_electricity_FlexMex2_1(plot_data, onxaxes):
-    if onxaxes == 'Region':
-        plot_data = plot_data.loc[plot_data['Scenario'] == 'FlexMex2_1a', :]
-    elif onxaxes == 'Scenario':
-
-        plot_data = plot_data.loc[plot_data['Region'].str.contains('DE'), :]
-    else:
-        print("Only Region or Scenario can be on the x axes.")
-    plot_data.to_csv('2021-07-03_plot_data.csv')
-
-    parameters = ['EnergyConversion_SecondaryEnergy_Electricity_CH4_GT',
-                  'EnergyConversion_SecondaryEnergy_Electricity_RE',
-                  'EnergyConversion_SecondaryEnergy_Electricity_Slack',
-                  'EnergyConversion_Curtailment_Electricity_RE',
-                  'Transmission_Flows_Electricity_Grid',
-                  'Transmission_Losses_Electricity_Grid']
-    plot_data = plot_data.loc[plot_data['Parameter'].isin(parameters)]
-    # sum all outgoing and all ingoing transmissions for each scenario
-    if onxaxes == 'Scenario':
-        for i in ('FlexMex2_1a', 'FlexMex2_1b', 'FlexMex2_1c', 'FlexMex2_1d'):
-
-            df_total_outgoing = plot_data[(plot_data.loc[:, 'Parameter'] =='Transmission_Flows_Electricity_Grid') &
-                                          (plot_data.loc[:, 'Scenario'] == i) &
-                                          (plot_data.loc[:, 'Region'].str.contains('_DE'))]
-
-            total_outgoing = -df_total_outgoing['Value'].sum()
-            row_total_outgoing = {'Scenario':i, 'Region':'DE', 'Parameter':'Transmission_Outgoing', 'Unit':'GWh',
-                              'Value':total_outgoing}
-            df_total_incoming = plot_data[(plot_data.loc[:, 'Parameter'] =='Transmission_Flows_Electricity_Grid') &
-                                          (plot_data.loc[:, 'Scenario'] == i) &
-                                          (plot_data.loc[:, 'Region'].str.contains('DE_'))]
-            total_incoming = df_total_incoming['Value'].sum()
-            row_total_ingoing = {'Scenario': i, 'Region': 'DE', 'Parameter': 'Transmission_Incoming', 'Unit': 'GWh',
-                                  'Value': total_incoming}
-            df_total_losses = plot_data[(plot_data.loc[:, 'Parameter'] =='Transmission_Losses_Electricity_Grid') &
-                                          (plot_data.loc[:, 'Scenario'] == i)]
-            total_losses = -df_total_losses['Value'].sum()
-            row_total_losses = {'Scenario':i, 'Region':'DE', 'Parameter':'Transmission_Losses', 'Unit':'GWh',
-                              'Value':total_losses}
-
-            plot_data.drop(df_total_outgoing.index.to_list(), inplace=True)
-            plot_data.drop(df_total_incoming.index.to_list(),  inplace=True)
-            plot_data.drop(df_total_losses.index.to_list(), inplace=True)
-            plot_data = plot_data.append(row_total_outgoing, ignore_index=True)
-            plot_data = plot_data.append(row_total_ingoing, ignore_index=True)
-            plot_data = plot_data.append(row_total_losses, ignore_index=True)
-
-    df_plot_conversion_electricity = pd.crosstab(index=plot_data[onxaxes], columns=plot_data.Parameter,
-                                           values=plot_data.Value, aggfunc='mean')
-    print(df_plot_conversion_electricity)
-
-
-    import pdb
-
-    pdb.set_trace()
 
 
 def stacked_scalars(df_plot, title, ylabel, xlabel):
