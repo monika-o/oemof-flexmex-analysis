@@ -15,8 +15,17 @@ colors = {'Solar_PV': '#bcbd22', 'Solar PV': '#bcbd22',
           'SecondaryEnergy_Heat_ElectricityHeat_Small': '#6fbeee',
           'SecondaryEnergy_Heat_Electricity_Large': '#36b07b',
           'Capacity_Heat_Electricity_Large': '#36b07b',
-          'Hydro': '#bfd1ce',
+          'Losses_Electricity_Hydro_Reservoir': '#0d1692',
+          'EnergyConversion_SecondaryEnergy_Electricity_Hydro_ReservoirPump': '#379484', #blauer machen
+          'SecondaryEnergy_Electricity_Hydro_ReservoirPump': '#379484', #blauer machen
+          'EnergyConversion_SecondaryEnergy_Electricity_Hydro_ReservoirTurbine': '#65ead3', #blauer machen
+          'SecondaryEnergy_Electricity_Hydro_ReservoirTurbine': '#65ead3', #blauer machen
+          'EnergyConversion_VarOM_Electricity_Hydro_Reservoir': '', #blauer machen
+          'Hydro': '#bfd1ce', #blauer machen
           'H2CavernStorage': '#54f2ff',
+          'Storage_Losses_H2_H2CavernStorage': '#3a979f',
+          'Storage_Output_H2_H2CavernStorage': '#4350ff',
+          'Storage_Input_H2_H2CavernStorage': '#8e93dd',
           'Biomass': '#2ca02c', 'CH4': '#d62728', 'CH4 GT': '#d62728',
           'Capacity_Heat_CH4_Large': '#d46566',
           'SecondaryEnergy_Electricity_CH4_GT': '#d62728', 'CH4_GT': '#d62728',
@@ -147,6 +156,63 @@ def preprocessing_stacked_scalars(plot_data, factor, onxaxes): # put a factor he
     return df_plot_conversion_heat, df_plot_conversion_electricity, df_plot_storage_heat, df_plot_storage_electricity, \
            df_plot_capacity_electricity, df_plot_capacity_heat
 
+# The above preprocessing function has become too complicated and doesn't work for electricity flows in FlexMex2_2 now.
+# This is why I now write explicit functions for all the plot_dataframes I need.
+def conversion_electricity_FlexMex2_1(plot_data, onxaxes):
+    if onxaxes == 'Region':
+        plot_data = plot_data.loc[plot_data['Scenario'] == 'FlexMex2_1a', :]
+    elif onxaxes == 'Scenario':
+
+        plot_data = plot_data.loc[plot_data['Region'].str.contains('DE'), :]
+    else:
+        print("Only Region or Scenario can be on the x axes.")
+    plot_data.to_csv('2021-07-03_plot_data.csv')
+
+    parameters = ['EnergyConversion_SecondaryEnergy_Electricity_CH4_GT',
+                  'EnergyConversion_SecondaryEnergy_Electricity_RE',
+                  'EnergyConversion_SecondaryEnergy_Electricity_Slack',
+                  'EnergyConversion_Curtailment_Electricity_RE',
+                  'Transmission_Flows_Electricity_Grid',
+                  'Transmission_Losses_Electricity_Grid']
+    plot_data = plot_data.loc[plot_data['Parameter'].isin(parameters)]
+    # sum all outgoing and all ingoing transmissions for each scenario
+    if onxaxes == 'Scenario':
+        for i in ('FlexMex2_1a', 'FlexMex2_1b', 'FlexMex2_1c', 'FlexMex2_1d'):
+
+            df_total_outgoing = plot_data[(plot_data.loc[:, 'Parameter'] =='Transmission_Flows_Electricity_Grid') &
+                                          (plot_data.loc[:, 'Scenario'] == i) &
+                                          (plot_data.loc[:, 'Region'].str.contains('_DE'))]
+
+            total_outgoing = -df_total_outgoing['Value'].sum()
+            row_total_outgoing = {'Scenario':i, 'Region':'DE', 'Parameter':'Transmission_Outgoing', 'Unit':'GWh',
+                              'Value':total_outgoing}
+            df_total_incoming = plot_data[(plot_data.loc[:, 'Parameter'] =='Transmission_Flows_Electricity_Grid') &
+                                          (plot_data.loc[:, 'Scenario'] == i) &
+                                          (plot_data.loc[:, 'Region'].str.contains('DE_'))]
+            total_incoming = df_total_incoming['Value'].sum()
+            row_total_ingoing = {'Scenario': i, 'Region': 'DE', 'Parameter': 'Transmission_Incoming', 'Unit': 'GWh',
+                                  'Value': total_incoming}
+            df_total_losses = plot_data[(plot_data.loc[:, 'Parameter'] =='Transmission_Losses_Electricity_Grid') &
+                                          (plot_data.loc[:, 'Scenario'] == i)]
+            total_losses = -df_total_losses['Value'].sum()
+            row_total_losses = {'Scenario':i, 'Region':'DE', 'Parameter':'Transmission_Losses', 'Unit':'GWh',
+                              'Value':total_losses}
+
+            plot_data.drop(df_total_outgoing.index.to_list(), inplace=True)
+            plot_data.drop(df_total_incoming.index.to_list(),  inplace=True)
+            plot_data.drop(df_total_losses.index.to_list(), inplace=True)
+            plot_data = plot_data.append(row_total_outgoing, ignore_index=True)
+            plot_data = plot_data.append(row_total_ingoing, ignore_index=True)
+            plot_data = plot_data.append(row_total_losses, ignore_index=True)
+
+    df_plot_conversion_electricity = pd.crosstab(index=plot_data[onxaxes], columns=plot_data.Parameter,
+                                           values=plot_data.Value, aggfunc='mean')
+    print(df_plot_conversion_electricity)
+
+
+    import pdb
+
+    pdb.set_trace()
 
 
 def stacked_scalars(df_plot, title, ylabel, xlabel):
