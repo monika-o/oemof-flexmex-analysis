@@ -11,6 +11,7 @@ from analysis.plot import preprocessing_stacked_scalars
 from analysis.plot import stacked_scalars
 from analysis.preprocessing_scalars import conversion_electricity_FlexMex2_1
 from analysis.preprocessing_scalars import conversion_electricity_FlexMex2_2
+from analysis.preprocessing_scalars import conversion_heat_FlexMex2_2
 
 scalars_file = os.path.join(os.path.dirname(__file__), '../../oemof-flexmex/results/FlexMex2/Scalars.csv')
 scenario = sys.argv[1] # either FlexMex2_1 or FlexMex2_2
@@ -23,6 +24,7 @@ if scenario == 'FlexMex2_1':
     df_plot_conversion_electricity = conversion_electricity_FlexMex2_1(df_in, onxaxes)
 elif scenario == 'FlexMex2_2':
     df_plot_conversion_electricity = conversion_electricity_FlexMex2_2(df_in, onxaxes)
+    df_plot_conversion_heat = conversion_heat_FlexMex2_2(df_in, onxaxes)
 
 # Retrieve the demand; demand is the same in all scenarios.
 # TODO: This is true for demand, but is it also for the other values imported from this scalars file?
@@ -39,4 +41,5 @@ df_demand = df_demand[df_demand.loc[:, 'Parameter'].str.contains('Energy_FinalEn
 # df_in = df_in.append(df_demand)
 # df_plot_conversion_electricity = df_plot_conversion_electricity.append(df_demand)
 
-stacked_scalars(df_plot_conversion_electricity, '2021-07-03-electricity_flows_FlexMex2_1c_all_countries', 'electricity in GWh', 'Scenario')
+stacked_scalars(df_plot_conversion_electricity, '2021-07-03-electricity_flows ' + scenario + onxaxes, 'electricity in GWh', 'Scenario')
+stacked_scalars(df_plot_conversion_heat, '2021-07-03-heat_flows ' + scenario + onxaxes, 'heat in GWh', 'Scenario')

@@ -77,8 +77,7 @@ def conversion_electricity_FlexMex2_1(plot_data, onxaxes):
 def conversion_electricity_FlexMex2_2(plot_data, onxaxes):
     plot_data = onxaxes_preparation(plot_data, onxaxes, 'FlexMex2_2c')
     plot_data.to_csv('2021-07-03_plot_data.csv')
-    import pdb
-    pdb.set_trace()
+
     parameters = ['EnergyConversion_SecondaryEnergy_Electricity_CH4_GT',
                   'EnergyConversion_SecondaryEnergy_Electricity_ElectricityHeat_CH4_ExCCGT',
                   'EnergyConversion_SecondaryEnergy_Electricity_RE',
@@ -96,8 +95,6 @@ def conversion_electricity_FlexMex2_2(plot_data, onxaxes):
     elif onxaxes == 'Region':
         for region in ('AT', 'BE', 'CH', 'CZ', 'DE', 'DK', 'FR', 'IT', 'LU', 'NL', 'PL'):
             plot_data = sum_transmissions(plot_data, 'FlexMex2_2c', region)
-        import pdb
-        pdb.set_trace
 
     df_plot_conversion_electricity = pd.crosstab(index=plot_data[onxaxes], columns=plot_data.Parameter,
                                            values=plot_data.Value, aggfunc='mean')
@@ -110,3 +107,23 @@ def conversion_electricity_FlexMex2_2(plot_data, onxaxes):
 #                                                            'Transmission_Losses',
 #                                                            'Transmission_Outgoing'])
     return df_plot_conversion_electricity
+
+def conversion_heat_FlexMex2_2(plot_data, onxaxes):
+    plot_data = onxaxes_preparation(plot_data, onxaxes, 'FlexMex2_2c')
+    plot_data.to_csv('2021-07-03_plot_data.csv')
+
+    parameters = ['EnergyConversion_SecondaryEnergy_Heat_Electricity_Large',
+                  'EnergyConversion_SecondaryEnergy_Heat_ElectricityHeat_CH4_ExCCGT',
+                  'EnergyConversion_SecondaryEnergy_Heat_ElectricityHeat_Large',
+                  'EnergyConversion_SecondaryEnergy_Heat_ElectricityHeat_Small',
+                  'EnergyConversion_SecondaryEnergy_Heat_Gas_Large',
+                  'EnergyConversion_SecondaryEnergy_Heat_Slack',
+                  ]
+    plot_data = plot_data.loc[plot_data['Parameter'].isin(parameters)]
+    # sum all outgoing and all ingoing transmissions for each scenario
+
+    df_plot_conversion_heat = pd.crosstab(index=plot_data[onxaxes], columns=plot_data.Parameter,
+                                           values=plot_data.Value, aggfunc='mean')
+#    df_plot_conversion_electricity = \
+#            df_plot_conversion_electricity.reindex(columns=[])
+    return df_plot_conversion_heat
