@@ -257,19 +257,21 @@ def plot_dispatch(
     # identify consumers, which shall be plotted negative and
     # isolate column with demand and make its data positive again
     df.columns = df.columns.to_flat_index()
-    import pdb
-    pdb.set_trace()
+
+    df_demand = pd.DataFrame()
     for i in df.columns:
         if i[0] == bus_name:
             df[i] = df[i] * -1
         if demand_name in i[1]:
-            df_demand = (df[i] * -1).to_frame()
+            df_demand[i] = df[i] * -1
+            # df_demand = (df[i] * -1).to_frame()
             # The above command replaces the second demand by the first if they are more than 1
             df.drop(columns=[i], inplace=True)
 
     # rename column names to match labels
     df = map_labels(df, general_labels_dict)
     df_demand = map_labels(df_demand, general_labels_dict)
+    df_demand['Total demand'] = df_demand.sum(axis=1)
 
     # group transmission busses by import and export
     df = group_agg_by_column(df)
