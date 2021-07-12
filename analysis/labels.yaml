@@ -9,6 +9,7 @@
 !!python/tuple ['-LU', '-electricity', 'flow']: Transmission In
 !!python/tuple ['-NL', '-electricity', 'flow']: Transmission In
 !!python/tuple ['-PL', '-electricity', 'flow']: Transmission In
+!!python/tuple ['-DE', '-electricity', 'flow']: Transmission In
 !!python/tuple ['-electricity', '-AT', 'flow']: Transmission Out
 !!python/tuple ['-electricity', '-BE', 'flow']: Transmission Out
 !!python/tuple ['-electricity', '-CH', 'flow']: Transmission Out
@@ -18,6 +19,7 @@
 !!python/tuple ['-electricity', '-LU', 'flow']: Transmission Out
 !!python/tuple ['-electricity', '-NL', 'flow']: Transmission Out
 !!python/tuple ['-electricity', '-PL', 'flow']: Transmission Out
+!!python/tuple ['-electricity', '-DE', 'flow']: Transmission Out
 !!python/tuple ['-ch4-gt', '-electricity', 'flow']: CH4
 !!python/tuple ['-electricity', '-electricity-curtailment', 'flow']: Curtailment
 !!python/tuple ['-electricity', '-electricity-demand', 'flow']: El. demand
@@ -27,6 +29,18 @@
 !!python/tuple ['-solar-pv', '-electricity', 'flow']: PV
 !!python/tuple ['-wind-onshore', '-electricity', 'flow']: Wind onshore
 !!python/tuple ['-wind-offshore', '-electricity', 'flow']: Wind offshore
+!!python/tuple ['-ch4-extchp', '-electricity', 'flow']: Extraction CHP
+!!python/tuple ['-electricity', '-electricity-bev', 'flow']: BEV charge
+!!python/tuple ['-electricity-bev-vehicle_to_grid', '-electricity', 'flow']: BEV to grid
+!!python/tuple ['-electricity', '-electricity-h2-cavern', 'flow']: H2 cavern charge # I guess this is superfluous as it is not modelled
+!!python/tuple ['-electricity-h2-cavern', '-electricity', 'flow']: H2 cavern discharge
+!!python/tuple ['-electricity', '-electricity-h2_demand', 'flow']: H2 demand
+!!python/tuple ['-electricity', '-electricity-heatpump-large', 'flow']: Heatpump large
+!!python/tuple ['-electricity', '-electricity-heatpump-small', 'flow']: Heatpump small
+!!python/tuple ['-electricity', '-electricity-pth', 'flow']: Resistance heating
+!!python/tuple ['-electricity', '-hydro-reservoir-pump', 'flow']: Hydro reservoir pump
+!!python/tuple ['-hydro-reservoir', '-electricity', 'flow']: Hydro reservoir
+
 #!!python/tuple ['-electricity-transmission', '-electricity', 'flow']: Import
 #!!python/tuple ['-electricity', '-electricity-transmission', 'flow']: Export
 #!!python/tuple ['-heat', '-heat-demand', 'flow']: Heat demand

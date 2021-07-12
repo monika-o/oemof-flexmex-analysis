@@ -1,9 +1,12 @@
 Color
 Solar_PV,#bcbd22
 SolarPV,#bcbd22
+PV,#bcbd22
 Wind,#407294
 Wind_Offshore,#1f77b4
 WindOffshore,#1f77b4
+Wind offshore,#1f77b4
+Wind onshore,#00ced1
 Wind_Onshore,#00ced1
 WindOnshore,#00ced1
 SecondaryEnergy_Electricity_RE,#069943
@@ -17,12 +20,17 @@ EnergyConversion_SecondaryEnergy_Heat_ElectricityHeat_Large,#3078a3
 Capacity_Heat_ElectricityHeat_Large,#3078a3
 Capacity_Heat_ElectricityHeat_Small,#6fbeee
 SecondaryEnergy_Heat_ElectricityHeat_Small,#6fbeee
+Heatpump small,#6fbeee
 EnergyConversion_SecondaryEnergy_Heat_ElectricityHeat_Small,#6fbeee
+Heatpump large,#36b07b
 SecondaryEnergy_Heat_Electricity_Large,#36b07b
 EnergyConversion_SecondaryEnergy_Heat_Electricity_Large,#36b07b
+Resistance heating,#36b07b
+Hydro reservoir,#033996
 Capacity_Heat_Electricity_Large,#36b07b
 Losses_Electricity_Hydro_Reservoir,#0d1692
 EnergyConversion_SecondaryEnergy_Electricity_Hydro_ReservoirPump,#1786bd
+Hydro reservoir pump,#1786bd
 SecondaryEnergy_Electricity_Hydro_ReservoirPump,#1786bd
 EnergyConversion_SecondaryEnergy_Electricity_Hydro_ReservoirTurbine,#033996
 SecondaryEnergy_Electricity_Hydro_ReservoirTurbine,#033996
@@ -50,7 +58,9 @@ CapacityElectricityHeatCH4ExCCGT,#e0a2ec
 Nuclear,#e4f200
 CombustibleFuels,#d62728
 BATdischarge,#9467bd
+BAT discharge,#9467bd
 BATcharge,#e377c2
+BAT charge,#e377c2
 Import,#17becf
 Shortage,#ff7f0e
 Export,#8c564b
@@ -59,6 +69,7 @@ Curtailment_Electricity_RE,#7f7f7f
 EnergyConversion_Curtailment_Electricity_RE,#7f7f7f
 Demand,#000000
 El. demand,#000000
+Total demand,#ffa700
 SolarThermal,#ecd70e
 Geothermal,#cdb79e
 TideWaveandOcean,#133337
@@ -79,14 +90,21 @@ Storage_Losses_Heat_LargeStorage,#858052
 Storage_Output_Heat_SmallStorage,#e5a305
 Storage_Output_Heat_LargeStorage,#f4df0b
 Storage_Capacity_Electricity_H2CavernStorage,#1bbf9a
+H2 demand,#1bbf9a
 Energy_FinalEnergy_Electricity,#000000
 Energy_FinalEnergy_Electricity_H2,#5f7c83
 Energy_FinalEnergy_Heat_CHP,#292585
+Extraction CHP,#292585
 Energy_FinalEnergy_Heat_HeatPump,#807be7
 Transmission_Flows_Electricity_Grid,#a9a9a9
 Transmission_Incoming,#c3a6a6
+Transmission In,#c3a6a6
+Transmission Out,#ab7777
 Transmission_Outgoing,#ab7777
 Transmission_Losses,#631717
 Transmission_Losses_Electricity_Grid,#69679f
 Transport_AnnualDemand_Electricity_Cars,#4740ec
 Transport_FeedIn_DrivePower_Electricity,#a4a1e3
+BEV charge,#a4a1e3
+BEV to grid,#a4a1e3
+
