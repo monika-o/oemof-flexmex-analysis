@@ -10,16 +10,17 @@ import pandas as pd
 import yaml
 from yaml.loader import SafeLoader
 
-input_file_definition = sys.argv[1]
+input_file_definition = sys.argv[1] # must be a scenario file from oemof-flexmex, e.g. FlexMex2_2b.yml
+output_filename = sys.argv[2] # e.g. attributes_FlexMex2_2b.csv
 with open(input_file_definition) as f:
     data = yaml.load(f, Loader=SafeLoader)
     components = list(data['components'].keys())
     print(components)
 
-# second step: load all component attribute files for the relevant components.
+# load all component attribute files for the relevant components.
 input_data_list = []
 for i in range(len(components)):
-    input_file = os.path.join(os.path.dirname(__file__), '../../oemof-flexmex/oemoflex/model_structure/component_attrs/'
+    input_file = os.path.join(os.path.dirname(__file__), '../../oemof-flexmex/oemof_flexmex/model_structure/component_attrs/'
                               + components[i] + '.csv')
     input_data = pd.read_csv(input_file)
     input_data = input_data.drop(['type', 'description'], axis = 1)
@@ -31,6 +32,4 @@ for i in range(len(components)):
     input_data_list.append(input_data)
 concatenated_df = pd.concat(input_data_list, axis=1)
 print(concatenated_df)
-concatenated_df.to_csv(sys.argv[2])
-
-# third step: join the data in a pandas dataframe so that no indices a doubled but all occuring indices are there.
+concatenated_df.to_csv(os.path.join(os.path.dirname(__file__), '../results/'+output_filename))
