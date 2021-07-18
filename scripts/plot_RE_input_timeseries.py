@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 from analysis.plot import preprocessing_timeseries
 from analysis.plot import plot_timeseries
 
-country = 'DE'
+country = 'PL'
 timeseries = ['Wind/Offshore', 'Wind/Onshore', 'Solar/PV']
 
 for i in range(len(timeseries)):
@@ -13,7 +13,10 @@ for i in range(len(timeseries)):
 
     title = timeseries[i] + ' time series in ' + country + ', 1 year'
     title = title.replace('/', ' ')
-    plot_timeseries(df_in, 'year', country, title, 'hours', 'kW/kW installed capacity')
+    plot_timeseries(df_in, 'year-rough', country, title, 'weeks', 'kW/kW installed capacity')
     title = timeseries[i] + ' time series in ' + country + ', 4 weeks'
     title = title.replace('/', ' ')
     plot_timeseries(df_in, 'weeks', country, title, 'hours', 'kW/kW installed capacity')
+#    title = timeseries[i] + ' time series in ' + country + ', 1 day'
+#    title = title.replace('/', ' ')
+#    plot_timeseries(df_in, 'day', country, title, 'hours', 'kW/kW installed capacity')
