@@ -1,93 +1,23 @@
 import os
+import pdb
+
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
+from collections import OrderedDict
+
+dir_name = os.path.abspath(os.path.dirname(__file__))
+colors_csv = pd.read_csv(
+    os.path.join(dir_name, "colors.csv"), header=[0], index_col=[0])
+
+colors_csv = colors_csv.T
+colors_odict = OrderedDict()
+for i in colors_csv.columns:
+    colors_odict[i] = colors_csv.loc["Color", i]
+
 
 # from analysis import colors
-colors = {'Solar_PV': '#bcbd22', 'Solar PV': '#bcbd22',
-          'Wind': '#407294', 'Wind_Offshore': '#1f77b4', 'Wind Offshore': '#1f77b4',
-          'Wind_Onshore': '#00ced1', 'Wind Onshore': '#00ced1',
-          'SecondaryEnergy_Electricity_RE': '#069943',
-          'EnergyConversion_SecondaryEnergy_Electricity_RE': '#069943',
-          'SecondaryEnergy_Electricity_Slack': '#bf3636',
-          'EnergyConversion_SecondaryEnergy_Electricity_Slack': '#bf3636',
-          'SecondaryEnergy_Heat_Slack': '#bf3636',
-          'EnergyConversion_SecondaryEnergy_Heat_Slack': '#bf3636',
-          'SecondaryEnergy_Heat_ElectricityHeat_Large': '#3078a3',
-          'EnergyConversion_SecondaryEnergy_Heat_ElectricityHeat_Large': '#3078a3',
-          'Capacity_Heat_ElectricityHeat_Large': '#3078a3',
-          'Capacity_Heat_ElectricityHeat_Small': '#6fbeee',
-          'SecondaryEnergy_Heat_ElectricityHeat_Small': '#6fbeee',
-          'EnergyConversion_SecondaryEnergy_Heat_ElectricityHeat_Small': '#6fbeee',
-          'SecondaryEnergy_Heat_Electricity_Large': '#36b07b',
-          'EnergyConversion_SecondaryEnergy_Heat_Electricity_Large': '#36b07b',
-          'Capacity_Heat_Electricity_Large': '#36b07b',
-          'Losses_Electricity_Hydro_Reservoir': '#0d1692',
-          'EnergyConversion_SecondaryEnergy_Electricity_Hydro_ReservoirPump': '#379484', #blauer machen
-          'SecondaryEnergy_Electricity_Hydro_ReservoirPump': '#379484', #blauer machen
-          'EnergyConversion_SecondaryEnergy_Electricity_Hydro_ReservoirTurbine': '#65ead3', #blauer machen
-          'SecondaryEnergy_Electricity_Hydro_ReservoirTurbine': '#65ead3', #blauer machen
-          'EnergyConversion_VarOM_Electricity_Hydro_Reservoir': '', #blauer machen
-          'Hydro': '#bfd1ce', #blauer machen
-          'H2CavernStorage': '#54f2ff',
-          'Storage_Losses_H2_H2CavernStorage': '#3a979f',
-          'Storage_Output_H2_H2CavernStorage': '#4350ff',
-          'Storage_Input_H2_H2CavernStorage': '#8e93dd',
-          'Biomass': '#2ca02c', 'CH4': '#d62728', 'CH4 GT': '#d62728',
-          'Capacity_Heat_CH4_Large': '#d46566',
-          'SecondaryEnergy_Electricity_CH4_GT': '#d62728', 'CH4_GT': '#d62728',
-          'EnergyConversion_SecondaryEnergy_Electricity_CH4_GT': '#d62728',
-          'SecondaryEnergy_Heat_Gas_Large': '#b07911',
-          'EnergyConversion_SecondaryEnergy_Heat_Gas_Large': '#b07911',
-          'SecondaryEnergy_Electricity_ElectricityHeat_CH4_ExCCGT': '#a81bc3',
-          'EnergyConversion_SecondaryEnergy_Electricity_ElectricityHeat_CH4_ExCCGT': '#a81bc3',
-          'EnergyConversion_SecondaryEnergy_Heat_ElectricityHeat_CH4_ExCCGT': '#a81bc3',
-          'SecondaryEnergy_Heat_ElectricityHeat_CH4_ExCCGT': '#ca71db',
-          'Capacity_ElectricityHeat_CH4_ExCCGT': '#e0a2ec',
-          'Capacity ElectricityHeat CH4 ExCCGT': '#e0a2ec',
-          'Nuclear': '#e4f200',
-          'Combustible Fuels': '#d62728',
-          'BAT discharge': '#9467bd',
-          'BAT charge': '#e377c2',
-          'Import': '#17becf',
-          'Shortage': '#ff7f0e',
-          'Export': '#8c564b',
-          'Curtailment': '#7f7f7f', 'Curtailment_Electricity_RE': '#7f7f7f',
-          'EnergyConversion_Curtailment_Electricity_RE': '#7f7f7f',
-          'Demand': '#000000',
-          'Solar Thermal': '#ecd70e',
-          'Geothermal': '#cdb79e',
-          'Tide, Wave and Ocean': '#133337',
-          'Other Sources': '#e0d6ce',
-          'LiIonBatteryCharge': '#ff80ed',
-          'LiIonBatteryDischarge': '#ffc0cb',
-          'Storage_Capacity_Electricity_LiIonBatteryStorage': '#cdb79e',
-          'LiIonBatteryStorage': '#cdb79e',
-          'Storage_Input_Electricity_LiIonBatteryStorage': '#a4a1e3',
-          'Storage_Losses_Electricity_LiIonBatteryStorage': '#694872',
-          'Storage_Output_Electricity_LiIonBatteryStorage': '#c321ee',
-          'Storage_Capacity_Heat_LargeStorage': '#ce2863',
-          'Storage_Capacity_Heat_SmallStorage': '#dd8ca8',
-          'Storage_Input_Heat_SmallStorage': '#e5ca8a',
-          'Storage_Input_Heat_LargeStorage': '#c321ee',
-          'Storage_Losses_Heat_SmallStorage': '#a39269',
-          'Storage_Losses_Heat_LargeStorage': '#858052',
-          'Storage_Output_Heat_SmallStorage': '#e5a305',
-          'Storage_Output_Heat_LargeStorage': '#f4df0b',
-          'Storage_Capacity_Electricity_H2CavernStorage': '#1bbf9a',
-          'Energy_FinalEnergy_Electricity': '#000000',
-          'Energy_FinalEnergy_Electricity_H2': '#5f7c83',
-          'Energy_FinalEnergy_Heat_CHP': '#292585',
-          'Energy_FinalEnergy_Heat_HeatPump': '#807be7',
-          'Transmission_Flows_Electricity_Grid': '#a9a9a9',
-          'Transmission_Incoming': '#c3a6a6',
-          'Transmission_Outgoing': '#ab7777',
-          'Transmission_Losses': '#631717',
-          'Transmission_Losses_Electricity_Grid': '#69679f',
-          'Transport_AnnualDemand_Electricity_Cars': '#4740ec',
-          'Transport_FeedIn_DrivePower_Electricity': '#a4a1e3'
 
-          }
 """
 Import a specific range of data from energy_statistical_countrydatasheets.xlsx
 """
@@ -174,27 +104,26 @@ def preprocessing_stacked_scalars(plot_data, factor, onxaxes): # put a factor he
 # This is why I now write explicit functions for all the plot_dataframes I need.
 
 
-def stacked_scalars(df_plot, title, ylabel, xlabel):
-    if df_plot.empty:
-        pass
-    else:
-        # Take care that Energy demand is always in the first row. It would have probably been easier to just add the
-        # numbers without appending them to the dataframe.
-        total_demand = 0
-        if df_plot.columns.str.contains('Energy_FinalEnergy').any():
-            total_demand = df_plot.iloc[0,:].sum()
-            # The demand should be plotted only as a line and not as a stacked bar.
-            df_plot = df_plot.drop(df_plot.index[0])
-        df_plot.dropna(axis=1, how='all', inplace = True)
-        df_plot.plot(kind='bar', stacked=True, color=colors)
-        if total_demand > 0:
-            plt.hlines(total_demand, plt.xlim()[0], plt.xlim()[1], label='Demand')
-        plt.axhline(0, color='black')
-        plt.title(title)
-        plt.xlabel(xlabel, fontsize = 12)
-        plt.ylabel(ylabel, fontsize = 12)
-        plt.legend(bbox_to_anchor=(1,1), loc="upper left")
-        plt.savefig(os.path.join(os.path.dirname(__file__), '../results/' + title), bbox_inches='tight')
+def stacked_scalars(df_plot, demand, title, ylabel, xlabel):
+
+    df_plot.dropna(axis=1, how='all', inplace = True)
+    import pdb
+    pdb.set_trace()
+    new_df = df_plot.drop('Transmission_Outgoing', axis = 1)
+    #new_df = df_plot[df_plot.columns.difference(['Transmission_Outgoing'])]
+    new_df.plot(kind='bar', stacked=True, bottom = df_plot.loc[:, 'Transmission_Outgoing'], color=colors_odict)
+
+    #df_plot = df_plot.drop('Transmission_Outgoing', axis = 1)
+
+    if demand > 0:
+        plt.hlines(demand, plt.xlim()[0], plt.xlim()[1], label='Demand')
+        print(demand)
+    plt.axhline(0, color='black')
+    plt.title(title)
+    plt.xlabel(xlabel, fontsize = 12)
+    plt.ylabel(ylabel, fontsize = 12)
+    plt.legend(bbox_to_anchor=(1,1), loc="upper left")
+    plt.savefig(os.path.join(os.path.dirname(__file__), '../results/' + title), bbox_inches='tight')
 
 def preprocessing_timeseries (inputdatapath, type):
     input_file = os.path.join(os.path.dirname(__file__),
