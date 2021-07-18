@@ -1,6 +1,7 @@
 Color
 Solar_PV,#bcbd22
 SolarPV,#bcbd22
+Solar PV,#bcbd22
 PV,#bcbd22
 Wind,#407294
 Wind_Offshore,#1f77b4
@@ -43,6 +44,8 @@ Storage_Input_H2_H2CavernStorage,#8e93dd
 Biomass,#2ca02c
 CH4,#d62728
 CH4GT,#d62728
+CH4 GT,#d62728
+Combustible Fuels,#d62728
 Capacity_Heat_CH4_Large,#d46566
 SecondaryEnergy_Electricity_CH4_GT,#d62728
 CH4_GT,#d62728
@@ -71,9 +74,10 @@ Demand,#000000
 El. demand,#000000
 Total demand,#ffa700
 SolarThermal,#ecd70e
+Solar Thermal,#ecd70e
 Geothermal,#cdb79e
-TideWaveandOcean,#133337
-OtherSources,#e0d6ce
+"Tide, Wave and Ocean",#133337
+Other Sources,#e0d6ce
 LiIonBatteryCharge,#ff80ed
 LiIonBatteryDischarge,#ffc0cb
 Storage_Capacity_Electricity_LiIonBatteryStorage,#cdb79e
@@ -90,6 +94,7 @@ Storage_Losses_Heat_LargeStorage,#858052
 Storage_Output_Heat_SmallStorage,#e5a305
 Storage_Output_Heat_LargeStorage,#f4df0b
 Storage_Capacity_Electricity_H2CavernStorage,#1bbf9a
+Storage_Capacity_H2_H2CavernStorage,#1bbf9a
 H2 demand,#1bbf9a
 Energy_FinalEnergy_Electricity,#000000
 Energy_FinalEnergy_Electricity_H2,#5f7c83

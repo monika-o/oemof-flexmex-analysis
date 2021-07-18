@@ -1,9 +1,12 @@
+"""
+plot electricity demand timeseries
+"""
 import pandas as pd
 import matplotlib.pyplot as plt
 import os
 
 from analysis.plot import preprocessing_timeseries
-from analysis.plot import plot_timeseries_weekly
+from analysis.plot import plot_timeseries
 
 # The use of the countrycode list would have only been helpful in a for-loop.
 countrycode = ['AT', 'BE', 'CH', 'CZ', 'DE', 'DK', 'FR', 'IT', 'LU', 'NL', 'PL']
@@ -23,16 +26,10 @@ df_in_unnormalised = df_in * yearly_electricity.values
 Summe = sum(df_in_unnormalised)
 print(Summe)
 
-plot_timeseries_weekly(df_in_unnormalised, 'weeks', countrycode[4], 'Electricity demand in all scenarios',
+plot_timeseries(df_in_unnormalised, 'weeks', countrycode[4], 'Electricity demand in all scenarios, 4 weeks',
+                       'hourly electricity demand [GW (el)]', 'hours')
+plot_timeseries(df_in_unnormalised, 'year', countrycode[4], 'Electricity demand in all scenarios, 1 year',
                        'hourly electricity demand [GW (el)]', 'hours')
 
-fig = plt.figure()
-fig, ax = plt.subplots()
-ax.plot(df_in_unnormalised.iloc[range(0, 8760, 24)], label=countrycode[4])
-ax.set_title('Electricity demand in all scenarios')
-ax.set_ylabel('hourly electricity demand [GW (el)]')
-ax.set_xlabel('hours')
-ax.legend()
-plt.savefig(os.path.join(os.path.dirname(__file__), '../results/electricity_demand_timeseries_year_daily.png'), bbox_inches='tight')
 
-# TODO: put months on the x-axis, not hours.
+# TODO: yearly energy or yearly electricity demand? I think electricity, but the timeseries table says energy
