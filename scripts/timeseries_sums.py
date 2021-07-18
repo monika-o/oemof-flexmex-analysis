@@ -1,8 +1,11 @@
+"""
+Sums timeseries, because not all can be found in the scalars file. I made it specifically because I was interested in
+the electricity used for heat production.
+"""
+
 import pandas as pd
 import os
 import sys
-
-from dispatch_plots import map_labels
 
 scenario = sys.argv[1]
 
