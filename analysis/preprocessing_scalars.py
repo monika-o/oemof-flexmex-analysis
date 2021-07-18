@@ -80,6 +80,17 @@ def conversion_electricity_FlexMex2_1(plot_data, df_demand, onxaxes):
                                                             ])
     return df_plot_conversion_electricity, demand
 
+def storage_FlexMex2_1(plot_data, onxaxes):
+    plot_data = onxaxes_preparation(plot_data, onxaxes, 'FlexMex2_1c')
+    parameters = [
+        'Storage_Losses_Electricity_LiIonBatteryStorage',
+        'Storage_Output_Electricity_LiIonBatteryStorage',
+    ]
+    plot_data = plot_data.loc[plot_data['Parameter'].isin(parameters)]
+    df_plot_storage = pd.crosstab(index=plot_data[onxaxes], columns=plot_data.Parameter,
+                                  values=plot_data.Value, aggfunc='mean')
+    return df_plot_storage
+
 def conversion_electricity_FlexMex2_2(plot_data, df_demand, onxaxes):
     plot_data = onxaxes_preparation(plot_data, onxaxes, 'FlexMex2_2c')
     plot_data.to_csv('2021-07-03_plot_data.csv')
@@ -164,5 +175,4 @@ def storage_FlexMex2_2(plot_data, onxaxes):
     plot_data = plot_data.loc[plot_data['Parameter'].isin(parameters)]
     df_plot_storage = pd.crosstab(index=plot_data[onxaxes], columns=plot_data.Parameter,
                                           values=plot_data.Value, aggfunc='mean')
-    filler_demand = 0 # only exists because the plotting function requires demand as an argument. It will be skipped if it is 0.
-    return df_plot_storage, filler_demand
+    return df_plot_storage
