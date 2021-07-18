@@ -107,11 +107,12 @@ def preprocessing_stacked_scalars(plot_data, factor, onxaxes): # put a factor he
 def stacked_scalars(df_plot, demand, title, ylabel, xlabel):
 
     df_plot.dropna(axis=1, how='all', inplace = True)
-    import pdb
-    pdb.set_trace()
-    new_df = df_plot.drop('Transmission_Outgoing', axis = 1)
-    #new_df = df_plot[df_plot.columns.difference(['Transmission_Outgoing'])]
-    new_df.plot(kind='bar', stacked=True, bottom = df_plot.loc[:, 'Transmission_Outgoing'], color=colors_odict)
+    if df_plot.columns.str.contains('Transmission_Outgoing').any():
+        new_df = df_plot.drop('Transmission_Outgoing', axis = 1)
+        #new_df = df_plot[df_plot.columns.difference(['Transmission_Outgoing'])]
+        new_df.plot(kind='bar', stacked=True, bottom = df_plot.loc[:, 'Transmission_Outgoing'], color=colors_odict)
+    else:
+        df_plot.plot(kind='bar', stacked=True, color=colors_odict)
 
     #df_plot = df_plot.drop('Transmission_Outgoing', axis = 1)
 

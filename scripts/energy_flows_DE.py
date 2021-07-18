@@ -12,6 +12,7 @@ from analysis.plot import stacked_scalars
 from analysis.preprocessing_scalars import conversion_electricity_FlexMex2_1
 from analysis.preprocessing_scalars import conversion_electricity_FlexMex2_2
 from analysis.preprocessing_scalars import conversion_heat_FlexMex2_2
+from analysis.preprocessing_scalars import storage_FlexMex2_2
 
 scalars_file = os.path.join(os.path.dirname(__file__), '../../oemof-flexmex/results/FlexMex2/Scalars.csv')
 scenario = sys.argv[1] # either FlexMex2_1 or FlexMex2_2
@@ -32,7 +33,9 @@ if scenario == 'FlexMex2_1':
 elif scenario == 'FlexMex2_2':
     df_plot_conversion_electricity, electricity_demand = conversion_electricity_FlexMex2_2(df_in, df_demand, onxaxes)
     df_plot_conversion_heat, heat_demand = conversion_heat_FlexMex2_2(df_in, df_demand, onxaxes)
+    df_plot_storage, filler_demand = storage_FlexMex2_2(df_in, onxaxes)
 
 stacked_scalars(df_plot_conversion_electricity, electricity_demand, '2021-07-17-electricity_flows ' + scenario + onxaxes, 'electricity in GWh', 'Scenario')
 if scenario == 'FlexMex2_2':
     stacked_scalars(df_plot_conversion_heat, heat_demand, '2021-07-17-heat_flows ' + scenario + onxaxes, 'heat in GWh', 'Scenario')
+    stacked_scalars(df_plot_storage, filler_demand, '2021-07-17-storage' + scenario + onxaxes, 'storage in GWh', 'Scenario')

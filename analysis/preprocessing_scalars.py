@@ -144,3 +144,25 @@ def conversion_heat_FlexMex2_2(plot_data, df_demand, onxaxes):
 #            df_plot_conversion_electricity.reindex(columns=[])
     return df_plot_conversion_heat, demand
 
+def storage_FlexMex2_2(plot_data, onxaxes):
+    plot_data = onxaxes_preparation(plot_data, onxaxes, 'FlexMex2_2c')
+    parameters = [
+        'Storage_Losses_Electricity_LiIonBatteryStorage',
+        'Storage_Losses_H2_H2CavernStorage',
+        'Storage_Losses_H2_H2TankStorage',
+        'Storage_Losses_Heat_LargeStorage',
+        'Storage_Losses_Heat_SmallStorage',
+        'Storage_Output_Electricity_LiIonBatteryStorage',
+        'Storage_Output_H2_H2CavernStorage',
+        'Storage_Output_H2_H2TankStorage',
+        'Storage_Output_Heat_LargeStorage',
+        'Storage_Output_Heat_SmallStorage',
+        'Transport_FeedIn_DrivePower_Electricity' #? TODO
+        'Transport_Shifting_DrivePower_Electricity'
+
+                  ]
+    plot_data = plot_data.loc[plot_data['Parameter'].isin(parameters)]
+    df_plot_storage = pd.crosstab(index=plot_data[onxaxes], columns=plot_data.Parameter,
+                                          values=plot_data.Value, aggfunc='mean')
+    filler_demand = 0 # only exists because the plotting function requires demand as an argument. It will be skipped if it is 0.
+    return df_plot_storage, filler_demand
