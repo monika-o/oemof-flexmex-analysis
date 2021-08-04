@@ -7,21 +7,30 @@ import numpy as np
 from collections import OrderedDict
 
 dir_name = os.path.abspath(os.path.dirname(__file__))
-colors_csv = pd.read_csv(
-    os.path.join(dir_name, "colors.csv"), header=[0], index_col=[0])
 
-colors_csv = colors_csv.T
-colors_odict = OrderedDict()
-for i in colors_csv.columns:
-    colors_odict[i] = colors_csv.loc["Color", i]
+def make_colors_odict ():
+    colors_csv = pd.read_csv(
+        os.path.join(dir_name, "colors.csv"), header=[0], index_col=[0])
 
+    colors_csv = colors_csv.T
+    colors_odict = OrderedDict()
+    for i in colors_csv.columns:
+        colors_odict[i] = colors_csv.loc["Color", i]
+
+    return colors_odict
+
+colors_odict = make_colors_odict()
 
 # from analysis import colors
 
-"""
-Import a specific range of data from energy_statistical_countrydatasheets.xlsx
-"""
+
 def import_countrydatasheet_data(sheet_name, last_row_to_skip, number_of_rows):
+
+    r"""
+    Import a specific range of data from energy_statistical_countrydatasheets.xlsx
+    Parameters
+    returns
+    """
     data = os.path.join(os.path.dirname(__file__), '../data/energy_statistical_countrydatasheets.xlsx')
     df = pd.read_excel(data, sheet_name=sheet_name, index_col=2, usecols="A:AG",
                        skiprows=lambda x: x in range(0, last_row_to_skip) and x != 7, nrows=number_of_rows, engine='openpyxl')
@@ -134,11 +143,13 @@ def preprocessing_timeseries (inputdatapath, type):
     return(df_in)
 
 def plot_timeseries (df_in, timeframe, label, title, xlabel, ylabel):
-    fig = plt.figure()
-    fig, ax = plt.subplots()
+    fig, ax = plt.subplots(figsize=(6,2))
     if timeframe == 'weeks':
-        ax.plot(df_in.iloc[0:168 * 4], label=label)
-    elif timeframe == 'year':
+        ax.plot(df_in.iloc[0:168 * 4])#, label=label)
+    elif timeframe == 'year_hourly':
+        ax.plot(df_in)
+
+    elif timeframe == 'year_daily':
         # one point for every day
         # ax.plot(df_in.iloc[range(0, 8760, 24)], label=label)
         # daily averages
@@ -149,9 +160,10 @@ def plot_timeseries (df_in, timeframe, label, title, xlabel, ylabel):
             end = (i+1)*24
             day_mean = df_in.iloc[range(start, end)].mean()
             ar[i] = day_mean
-        ax.plot(ar, label = label)
+        ax.plot(ar)#, label = label)
+        ax.legend(label)
     # in order to show larger tendencies in wind power, here is another kind of plot with weekly averages
-    elif timeframe == 'year-rough':
+    elif timeframe == 'year-weekly':
         ar = np.zeros(shape=52)
         for i in range (0, 52):
             start = i*168
@@ -166,6 +178,6 @@ def plot_timeseries (df_in, timeframe, label, title, xlabel, ylabel):
     ax.set_title(title)
     ax.set_ylabel(ylabel, fontsize = 12)
     ax.set_xlabel(xlabel, fontsize = 12)
-    ax.legend()  # loc='upper center', bbox_to_anchor=(1.45, 0.8), shadow=True, ncol=1)
+    ax.legend(label)  # loc='upper center', bbox_to_anchor=(1.45, 0.8), shadow=True, ncol=1)
     plt.savefig(os.path.join(os.path.dirname(__file__), '../results/timeseries/' + title), bbox_inches='tight')
     # TODO: adjust x-axis depending on timeframe (days or months would be good, not hours)

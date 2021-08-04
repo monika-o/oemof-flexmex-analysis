@@ -2,14 +2,17 @@ Color
 Solar_PV,#bcbd22
 SolarPV,#bcbd22
 Solar PV,#bcbd22
+Solar/PV,#bcbd22
 PV,#bcbd22
 Wind,#407294
 Wind_Offshore,#1f77b4
 WindOffshore,#1f77b4
 Wind offshore,#1f77b4
+Wind/Offshore,#1f77b4
 Wind onshore,#00ced1
 Wind_Onshore,#00ced1
 WindOnshore,#00ced1
+Wind/Onshore,#00ced1
 SecondaryEnergy_Electricity_RE,#069943
 EnergyConversion_SecondaryEnergy_Electricity_RE,#069943
 SecondaryEnergy_Electricity_Slack,#bf3636
