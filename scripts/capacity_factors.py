@@ -17,6 +17,8 @@ for i in range(len(timeseries)):
                           + timeseries[i] + '/FlexMex2_' + region[j] + '_2050.csv', 'generation')
         cap_fact.loc[timeseries[i], region[j]] = df_in.sum()/8760
 
+cap_fact.to_csv(os.path.join(os.path.dirname(__file__),'../results/capacity_factors.csv'))
+
 fig, ax = plt.subplots(3, 1)
 ax1 = plt.subplot(3, 1, 1)
 ax2 = plt.subplot(3, 1, 2)
