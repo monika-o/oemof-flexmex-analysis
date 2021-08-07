@@ -5,6 +5,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
 from collections import OrderedDict
+from analysis.helpers import load_yaml
+from analysis.preprocessing_scalars import generate_labels
 
 dir_name = os.path.abspath(os.path.dirname(__file__))
 
@@ -116,23 +118,31 @@ def preprocessing_stacked_scalars(plot_data, factor, onxaxes): # put a factor he
 def stacked_scalars(df_plot, demand, title, ylabel, xlabel):
 
     df_plot.dropna(axis=1, how='all', inplace = True)
+
+    labels_dict = load_yaml(os.path.join(dir_name, "stacked_plot_labels.yaml"))
+
     if df_plot.columns.str.contains('Transmission_Outgoing').any():
         new_df = df_plot.drop('Transmission_Outgoing', axis = 1)
-        #new_df = df_plot[df_plot.columns.difference(['Transmission_Outgoing'])]
+        labels = generate_labels(new_df, labels_dict)
         new_df.plot(kind='bar', stacked=True, bottom = df_plot.loc[:, 'Transmission_Outgoing'], color=colors_odict)
     else:
+        labels = generate_labels(df_plot, labels_dict)
         df_plot.plot(kind='bar', stacked=True, color=colors_odict)
 
     #df_plot = df_plot.drop('Transmission_Outgoing', axis = 1)
 
     if demand > 0:
-        plt.hlines(demand, plt.xlim()[0], plt.xlim()[1], label='Demand')
+        # convert from GWh to TWh
+        demand = demand/1000
+        plt.hlines(demand, plt.xlim()[0], plt.xlim()[1])#, label='Demand')
+        labels.insert(0, 'Demand')
         print(demand)
-    plt.axhline(0, color='black')
+    plt.axhline(0, color='black', label='_nolegend_')
     plt.title(title)
+
     plt.xlabel(xlabel, fontsize = 12)
     plt.ylabel(ylabel, fontsize = 12)
-    plt.legend(bbox_to_anchor=(1,1), loc="upper left")
+    plt.legend(labels, bbox_to_anchor=(1,1), loc="upper left")
     plt.savefig(os.path.join(os.path.dirname(__file__), '../results/' + title), bbox_inches='tight')
 
 def preprocessing_timeseries (inputdatapath, type):
@@ -163,7 +173,7 @@ def plot_timeseries (df_in, timeframe, label, title, xlabel, ylabel):
         ax.plot(ar)#, label = label)
         ax.legend(label)
     # in order to show larger tendencies in wind power, here is another kind of plot with weekly averages
-    elif timeframe == 'year-weekly':
+    elif timeframe == 'year_weekly':
         ar = np.zeros(shape=52)
         for i in range (0, 52):
             start = i*168
@@ -175,9 +185,9 @@ def plot_timeseries (df_in, timeframe, label, title, xlabel, ylabel):
         ax.plot(df_in.iloc[range(6*168, 6*168 + 24)], label=label) # the first day of the sixth week - the choice of the day is arbitrary
     else:
         print('Only day, weeks, year and year-rough are possible timeframes')
-    ax.set_title(title)
-    ax.set_ylabel(ylabel, fontsize = 12)
-    ax.set_xlabel(xlabel, fontsize = 12)
-    ax.legend(label)  # loc='upper center', bbox_to_anchor=(1.45, 0.8), shadow=True, ncol=1)
+    ax.set_title(title, fontsize = 15)
+    ax.set_ylabel(ylabel, fontsize = 13)
+    ax.set_xlabel(xlabel, fontsize = 13)
+    #ax.legend(label)  # loc='upper center', bbox_to_anchor=(1.45, 0.8), shadow=True, ncol=1)
     plt.savefig(os.path.join(os.path.dirname(__file__), '../results/timeseries/' + title), bbox_inches='tight')
     # TODO: adjust x-axis depending on timeframe (days or months would be good, not hours)
