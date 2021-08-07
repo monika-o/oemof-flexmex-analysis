@@ -8,7 +8,8 @@ In a second plot, the capacities from FlexMex2_1b are visualized, also as bar pl
 import os
 import pandas as pd
 import matplotlib.pyplot as plt
-from analysis.preprocessing_scalars import electricity_conversion_capacity_FlexMex2_1
+#from analysis.preprocessing_scalars import electricity_conversion_capacity_FlexMex2_1
+import analysis.preprocessing_scalars as prepare
 from analysis.plot import stacked_scalars
 
 scenarios1 = ['1a', '1b', '1c', '1d']
@@ -32,10 +33,39 @@ onxaxes = 'Scenario'
 
 scalars2_2.rename(columns={"UseCase": "Scenario"}, inplace=True)
 
-df_plot_el_conv_cap_FlexMex2_1 = electricity_conversion_capacity_FlexMex2_1(scalars2_1, onxaxes)
+df_plot_el_conv_cap_FlexMex2_1 = prepare.electricity_conversion_capacity_FlexMex2_1(scalars2_1, onxaxes)
+df_plot_el_conv_cap_FlexMex2_2 = prepare.electricity_conversion_capacity_FlexMex2_2(scalars2_2, onxaxes)
+df_plot_el_stor_cap_FlexMex2_1 = prepare.electricity_storage_capacity_FlexMex2_1(scalars2_1, onxaxes)
+df_plot_el_stor_cap_FlexMex2_2 = prepare.electricity_storage_capacity_FlexMex2_2(scalars2_2, onxaxes)
+df_plot_he_stor_cap_FlexMex2_2 = prepare.heat_storage_capacity_FlexMex2_2(scalars2_2, onxaxes)
+df_plot_he_conv_cap_FlexMex2_2 = prepare.heat_conversion_capacity_FlexMex2_2(scalars2_2, onxaxes)
+df_plot_h2_stor_cap_FlexMex2_2 = prepare.H2_storage_capacity_FlexMex2_2(scalars2_2, onxaxes)
 
 stacked_scalars(df_plot=df_plot_el_conv_cap_FlexMex2_1, demand=0,
-                title='2021-08-07_Installed electricity conversion capacities in Germany in FlexMex2_1' ,
+                title='Installed electricity conversion capacities in Germany in FlexMex2_1' ,
                 ylabel='Installed capacities in GW', xlabel='Scenario')
 
 
+stacked_scalars(df_plot=df_plot_el_conv_cap_FlexMex2_2, demand=0,
+                title='Installed electricity conversion capacities in Germany in FlexMex2_2' ,
+                ylabel='Installed capacities in GW', xlabel='Scenario')
+
+stacked_scalars(df_plot=df_plot_el_stor_cap_FlexMex2_1, demand=0,
+                title='Installed electricity storage capacities in Germany in FlexMex2_1' ,
+                ylabel='Installed capacities in GWh', xlabel='Scenario')
+
+stacked_scalars(df_plot=df_plot_el_stor_cap_FlexMex2_2, demand=0,
+                title='Installed electricity storage capacities in Germany in FlexMex2_2' ,
+                ylabel='Installed capacities in GWh', xlabel='Scenario')
+
+stacked_scalars(df_plot=df_plot_he_stor_cap_FlexMex2_2, demand=0,
+                title='Installed heat storage capacities in Germany in FlexMex2_2' ,
+                ylabel='Installed capacities in GWh', xlabel='Scenario')
+
+stacked_scalars(df_plot=df_plot_he_conv_cap_FlexMex2_2, demand=0,
+                title='Installed heat conversion capacities in Germany in FlexMex2_2' ,
+                ylabel='Installed capacities in GW', xlabel='Scenario')
+
+stacked_scalars(df_plot=df_plot_h2_stor_cap_FlexMex2_2, demand=0,
+                title='Installed hydrogen storage capacities in Germany in FlexMex2_2' ,
+                ylabel='Installed capacities in GWh', xlabel='Scenario')

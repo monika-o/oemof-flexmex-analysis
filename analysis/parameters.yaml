@@ -25,6 +25,7 @@ heat_conversion_capacity_FlexMex2_2:
 electricity_storage_capacity_FlexMex2_2:
   EnergyConversion_Capacity_Electricity_Hydro_ReservoirStorage:
   Storage_Capacity_Electricity_LiIonBatteryStorage:
+  Storage_Capacity_H2_CavernStorage:
 
 heat_storage_capacity_FlexMex2_2:
   Storage_Capacity_Heat_LargeStorage:

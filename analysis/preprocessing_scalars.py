@@ -77,3 +77,58 @@ def electricity_conversion_capacity_FlexMex2_1(plot_data, onxaxes):
     df_plot_el_conv_cap_FlexMex2_1 = pd.crosstab(index=plot_data[onxaxes], columns=plot_data.Parameter,
                                                          values=plot_data.Value / 1000, aggfunc='mean')
     return df_plot_el_conv_cap_FlexMex2_1
+
+def electricity_conversion_capacity_FlexMex2_2(plot_data, onxaxes):
+    plot_data = onxaxes_preparation(plot_data, onxaxes, 'FlexMex2_2c')
+    parameters = load_yaml(os.path.join(dir_name, "parameters.yaml"))
+    parameters = [*parameters['electricity_conversion_capacity_FlexMex2_2']]
+    plot_data = plot_data.loc[plot_data['Parameter'].isin(parameters)]
+    df_plot_el_conv_cap_FlexMex2_2 = pd.crosstab(index=plot_data[onxaxes], columns=plot_data.Parameter,
+                                                         values=plot_data.Value / 1000, aggfunc='mean')
+    return df_plot_el_conv_cap_FlexMex2_2
+
+def electricity_storage_capacity_FlexMex2_1(plot_data, onxaxes):
+    plot_data = onxaxes_preparation(plot_data, onxaxes, 'FlexMex2_2c')
+    parameters = load_yaml(os.path.join(dir_name, "parameters.yaml"))
+    parameters = [*parameters['electricity_storage_capacity_FlexMex2_1']]
+    plot_data = plot_data.loc[plot_data['Parameter'].isin(parameters)]
+    df_plot_el_stor_cap_FlexMex2_1 = pd.crosstab(index=plot_data[onxaxes], columns=plot_data.Parameter,
+                                                         values=plot_data.Value, aggfunc='mean')
+    return df_plot_el_stor_cap_FlexMex2_1
+
+def electricity_storage_capacity_FlexMex2_2(plot_data, onxaxes):
+    plot_data = onxaxes_preparation(plot_data, onxaxes, 'FlexMex2_2c')
+    parameters = load_yaml(os.path.join(dir_name, "parameters.yaml"))
+    parameters = [*parameters['electricity_storage_capacity_FlexMex2_2']]
+    plot_data = plot_data.loc[plot_data['Parameter'].isin(parameters)]
+    df_plot_el_stor_cap_FlexMex2_2 = pd.crosstab(index=plot_data[onxaxes], columns=plot_data.Parameter,
+                                                         values=plot_data.Value, aggfunc='mean')
+    return df_plot_el_stor_cap_FlexMex2_2
+
+def heat_storage_capacity_FlexMex2_2(plot_data, onxaxes):
+    plot_data = onxaxes_preparation(plot_data, onxaxes, 'FlexMex2_2c')
+    parameters = load_yaml(os.path.join(dir_name, "parameters.yaml"))
+    parameters = [*parameters['heat_storage_capacity_FlexMex2_2']]
+    plot_data = plot_data.loc[plot_data['Parameter'].isin(parameters)]
+    df_plot_he_stor_cap_FlexMex2_2 = pd.crosstab(index=plot_data[onxaxes], columns=plot_data.Parameter,
+                                                         values=plot_data.Value, aggfunc='mean')
+    return df_plot_he_stor_cap_FlexMex2_2
+
+def heat_conversion_capacity_FlexMex2_2(plot_data, onxaxes):
+    plot_data = onxaxes_preparation(plot_data, onxaxes, 'FlexMex2_2c')
+    parameters = load_yaml(os.path.join(dir_name, "parameters.yaml"))
+    parameters = [*parameters['heat_conversion_capacity_FlexMex2_2']]
+    plot_data = plot_data.loc[plot_data['Parameter'].isin(parameters)]
+    df_plot_he_conv_cap_FlexMex2_2 = pd.crosstab(index=plot_data[onxaxes], columns=plot_data.Parameter,
+                                                         values=plot_data.Value / 1000, aggfunc='mean')
+    return df_plot_he_conv_cap_FlexMex2_2
+
+
+def H2_storage_capacity_FlexMex2_2(plot_data, onxaxes):
+    plot_data = onxaxes_preparation(plot_data, onxaxes, 'FlexMex2_2c')
+    parameters = load_yaml(os.path.join(dir_name, "parameters.yaml"))
+    parameters = [*parameters['H2_storage_capacity_FlexMex2_2']]
+    plot_data = plot_data.loc[plot_data['Parameter'].isin(parameters)]
+    df_plot_h2_stor_cap_FlexMex2_2 = pd.crosstab(index=plot_data[onxaxes], columns=plot_data.Parameter,
+                                                         values=plot_data.Value, aggfunc='mean')
+    return df_plot_h2_stor_cap_FlexMex2_2
