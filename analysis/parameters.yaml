@@ -1,0 +1,35 @@
+electricity_conversion_capacity_FlexMex2_1:
+  EnergyConversion_Capacity_Electricity_CH4_GT:
+  EnergyConversion_Capacity_Electricity_Solar_PV:
+  EnergyConversion_Capacity_Electricity_Wind_Offshore:
+  EnergyConversion_Capacity_Electricity_Wind_Onshore:
+
+electricity_storage_capacity_FlexMex2_1:
+  Storage_Capacity_Electricity_LiIonBatteryStorage:
+
+electricity_conversion_capacity_FlexMex2_2:
+  EnergyConversion_Capacity_Electricity_CH4_GT:
+  EnergyConversion_Capacity_Electricity_Solar_PV:
+  EnergyConversion_Capacity_Electricity_Wind_Offshore:
+  EnergyConversion_Capacity_Electricity_Wind_Onshore:
+  EnergyConversion_Capacity_Electricity_Hydro_ReservoirTurbine:
+  EnergyConversion_Capacity_ElectricityHeat_CH4_ExCCGT:
+  # EnergyConversion_Capacity_H2_Electricity
+
+heat_conversion_capacity_FlexMex2_2:
+  EnergyConversion_Capacity_Heat_CH4_Large:
+  EnergyConversion_Capacity_Heat_Electricity_Large:
+  EnergyConversion_Capacity_Heat_ElectricityHeat_Large:
+  EnergyConversion_Capacity_Heat_ElectricityHeat_Small:
+
+electricity_storage_capacity_FlexMex2_2:
+  EnergyConversion_Capacity_Electricity_Hydro_ReservoirStorage:
+  Storage_Capacity_Electricity_LiIonBatteryStorage:
+
+heat_storage_capacity_FlexMex2_2:
+  Storage_Capacity_Heat_LargeStorage:
+  Storage_Capacity_Heat_SmallStorage:
+
+H2_storage_capacity_FlexMex2_2:
+  Storage_Capacity_H2_CavernStorage:
+#  Storage_Capacity_H2_TankStorage - not modelled; very small anyway
