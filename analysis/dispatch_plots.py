@@ -207,8 +207,7 @@ def stackplot(ax, df, colors_odict=colors_odict):
         labels.append(i)
         colors.append(colors_odict[i])
         y.append(df[i])
-    import pdb
-    pdb.set_trace()
+
     y = np.vstack(y)
     ax.stackplot(df.index, y, colors=colors, labels=labels)
     ax.legend()
