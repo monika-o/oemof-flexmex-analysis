@@ -207,9 +207,11 @@ def stackplot(ax, df, colors_odict=colors_odict):
         labels.append(i)
         colors.append(colors_odict[i])
         y.append(df[i])
-
+    import pdb
+    pdb.set_trace()
     y = np.vstack(y)
     ax.stackplot(df.index, y, colors=colors, labels=labels)
+    ax.legend()
 
 
 def lineplot(ax, df, colors_odict=colors_odict):
@@ -228,6 +230,7 @@ def lineplot(ax, df, colors_odict=colors_odict):
 
     for i in df.columns:
         ax.plot(df.index, df[i], color=colors_odict[i], label=i)
+        ax.legend()
 
 
 def plot_dispatch(
@@ -271,7 +274,7 @@ def plot_dispatch(
     # rename column names to match labels
     df = map_labels(df, general_labels_dict)
     df_demand = map_labels(df_demand, general_labels_dict)
-    df_demand['Total demand'] = df_demand.sum(axis=1)
+    #df_demand['Total demand'] = df_demand.sum(axis=1)
 
     # group transmission busses by import and export
     df = group_agg_by_column(df)

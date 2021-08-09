@@ -85,6 +85,7 @@ LiIonBatteryCharge,#ff80ed
 LiIonBatteryDischarge,#ffc0cb
 Storage_Capacity_Electricity_LiIonBatteryStorage,#cdb79e
 LiIonBatteryStorage,#cdb79e
+LiIonBattery,#cdb79e
 Storage_Input_Electricity_LiIonBatteryStorage,#a4a1e3
 Storage_Losses_Electricity_LiIonBatteryStorage,#694872
 Storage_Output_Electricity_LiIonBatteryStorage,#c321ee
