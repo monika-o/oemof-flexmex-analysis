@@ -56,7 +56,7 @@
 !!python/tuple ['-heat_decentral-storage-small', '-heat_decentral', 'flow']: Small storage discharge
 !!python/tuple ['-heat_central', '-heat_central-demand', 'flow']: Demand
 !!python/tuple ['-heat_decentral', '-heat_decentral-demand', 'flow']: Demand
-#!!python/tuple ['-electricity-transmission', '-electricity', 'flow']: Import
-#!!python/tuple ['-electricity', '-electricity-transmission', 'flow']: Export
-#!!python/tuple ['-heat', '-heat-demand', 'flow']: Heat demand
-#!!python/tuple ['-ch4-boiler', '-heat', 'flow']: CH4 Boiler
+
+!!python/tuple ['-electricity-bev', '-electricity-bev-internal_bus', 'flow']: BEV charge
+!!python/tuple ['-electricity-bev-internal_bus', '-electricity-bev-drive_power', 'flow']: BEV drive power
+!!python/tuple ['-electricity-bev-internal_bus', '-electricity-bev-vehicle_to_grid', 'flow']: BEV to grid

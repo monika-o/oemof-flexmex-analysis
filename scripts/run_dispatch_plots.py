@@ -8,7 +8,9 @@ from matplotlib import gridspec
 colors_odict = make_colors_odict()
 datetimeindex = pd.date_range(start="2050-01-01", periods=8760, freq="H")
 
-bus_name = 'DE-heat_decentral'
+bus_name = 'DE-electricity-bev-internal_bus' #'DE-electricity','DE-electricity-bev-internal_bus', 'DE-heat_decentral', DE-heat_central'
+scenario = '2a'
+
 input_file = os.path.join(os.path.dirname(__file__), '../../oemof-flexmex/results/FlexMex2_107/FlexMex2_2a/'
                                                      'oemoflex-timeseries/'+bus_name+'.csv'
                           )
@@ -26,9 +28,8 @@ start_date='2050-02-01 00:00:00'
 end_date='2050-03-01 00:00:00'
 
 plots.plot_dispatch(
-    ax1, df=data, start_date=start_date, end_date=end_date, bus_name=bus_name,
-)
-
+        ax1, df=data, start_date=start_date, end_date=end_date, bus_name=bus_name,
+    )
 
 df = pd.DataFrame()
 
@@ -41,7 +42,8 @@ if bus_name == 'DE-heat_central':
 if bus_name == 'DE-heat_decentral':
     technologies = ['Small']
     bus = 'Heat/'
-scenario = '2a'
+
+
 for technology in technologies:
     # choose 'Heat' or 'Electricity' manually
     input_file = os.path.join(os.path.dirname(__file__), '../../oemof-flexmex/results/FlexMex2_107/FlexMex2_'+scenario+'/Storage/'
@@ -64,4 +66,4 @@ ax2.set_ylabel('Storage level in GWh')
 plt.legend(df.columns, loc="best")
 
 plt.tight_layout()
-plt.savefig(os.path.join(os.path.dirname(__file__),'../results/timeseries/Dispatch'+bus_name+'.png'))
+plt.savefig(os.path.join(os.path.dirname(__file__),'../results/timeseries/Dispatch'+bus_name+scenario+'.png'))
