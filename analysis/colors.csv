@@ -96,15 +96,17 @@ Storage_Losses_Electricity_LiIonBatteryStorage,#694872
 Storage_Output_Electricity_LiIonBatteryStorage,#c321ee
 
 Storage_Input_Heat_SmallStorage,#e5ca8a
-Storage_Input_Heat_LargeStorage,#c321ee
+Storage_Input_Heat_LargeStorage,#f4df0b
 Storage_Losses_Heat_SmallStorage,#a39269
 Storage_Losses_Heat_LargeStorage,#858052
 Storage_Output_Heat_SmallStorage,#e5a305
-Storage_Output_Heat_LargeStorage,#f4df0b
+Storage_Output_Heat_LargeStorage,#c1a814
 Storage_Capacity_Electricity_H2CavernStorage,#1bbf9a
 Storage_Capacity_H2_H2CavernStorage,#1bbf9a
 Large storage charge,#f4df0b
+Small storage charge,#e5ca8a
 Large storage discharge,#c1a814
+Small storage discharge,#e5a305
 H2Cavern,#1bbf9a
 H2 demand,#1bbf9a
 H2 cavern charge,#afffed
@@ -141,4 +143,5 @@ Storage_Capacity_Electricity_LiIonBatteryStorage,#cdb79e
 Storage_Capacity_Heat_LargeStorage,#ce2863
 Large,#ce2863
 Storage_Capacity_Heat_SmallStorage,#dd8ca8
+Small,#dd8ca8
 Storage_Capacity_H2_CavernStorage,#1bbf9a

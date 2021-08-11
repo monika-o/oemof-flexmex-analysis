@@ -8,9 +8,9 @@ from matplotlib import gridspec
 colors_odict = make_colors_odict()
 datetimeindex = pd.date_range(start="2050-01-01", periods=8760, freq="H")
 
-bus_name = 'DE-heat_central'
+bus_name = 'DE-heat_decentral'
 input_file = os.path.join(os.path.dirname(__file__), '../../oemof-flexmex/results/FlexMex2_107/FlexMex2_2a/'
-                                                     'oemoflex-timeseries/DE-heat_central.csv'
+                                                     'oemoflex-timeseries/'+bus_name+'.csv'
                           )
 data = pd.read_csv(input_file, header=[0, 1, 2], parse_dates=[0], index_col=[0])
 
@@ -37,6 +37,9 @@ if bus_name == 'DE-electricity':
     bus = 'Electricity/'
 if bus_name == 'DE-heat_central':
     technologies = ['Large']
+    bus = 'Heat/'
+if bus_name == 'DE-heat_decentral':
+    technologies = ['Small']
     bus = 'Heat/'
 scenario = '2a'
 for technology in technologies:
