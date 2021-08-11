@@ -32,7 +32,7 @@
 !!python/tuple ['-ch4-extchp', '-electricity', 'flow']: Extraction CHP
 !!python/tuple ['-electricity', '-electricity-bev', 'flow']: BEV charge
 !!python/tuple ['-electricity-bev-vehicle_to_grid', '-electricity', 'flow']: BEV to grid
-!!python/tuple ['-electricity', '-electricity-h2-cavern', 'flow']: H2 cavern charge # I guess this is superfluous as it is not modelled
+!!python/tuple ['-electricity', '-electricity-h2-cavern', 'flow']: H2 cavern charge
 !!python/tuple ['-electricity-h2-cavern', '-electricity', 'flow']: H2 cavern discharge
 !!python/tuple ['-electricity', '-electricity-h2_demand', 'flow']: H2 demand
 !!python/tuple ['-electricity', '-electricity-heatpump-large', 'flow']: Heatpump large
@@ -41,6 +41,15 @@
 !!python/tuple ['-electricity', '-hydro-reservoir-pump', 'flow']: Hydro reservoir pump
 !!python/tuple ['-hydro-reservoir', '-electricity', 'flow']: Hydro reservoir
 
+!!python/tuple ['-ch4-boiler-large', '-heat_central', 'flow']: CH4 boiler large
+!!python/tuple ['-ch4-extchp', '-heat_central', 'flow']: Co-generation turbine
+!!python/tuple ['-electricity-heatpump-large', '-heat_central', 'flow']: Large heatpump
+!!python/tuple ['-electricity-pth', '-heat_central', 'flow']: Resistance heating
+!!python/tuple ['-heat_central', '-heat_central-excess', 'flow']: Excess heat
+!!python/tuple ['-heat_central', '-heat_central-storage-large', 'flow']: Large storage charge
+!!python/tuple ['-heat_central-shortage', '-heat_central', 'flow']: Shortage
+!!python/tuple ['-heat_central-storage-large', '-heat_central', 'flow']: Large storage discharge
+!!python/tuple ['-heat_central', '-heat_central-demand', 'flow']: Demand
 #!!python/tuple ['-electricity-transmission', '-electricity', 'flow']: Import
 #!!python/tuple ['-electricity', '-electricity-transmission', 'flow']: Export
 #!!python/tuple ['-heat', '-heat-demand', 'flow']: Heat demand

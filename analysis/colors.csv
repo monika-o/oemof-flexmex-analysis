@@ -25,16 +25,18 @@ Capacity_Heat_ElectricityHeat_Large,#3078a3
 Capacity_Heat_ElectricityHeat_Small,#6fbeee
 SecondaryEnergy_Heat_ElectricityHeat_Small,#6fbeee
 Heatpump small,#6fbeee
+Small heatpump,#6fbeee
 EnergyConversion_SecondaryEnergy_Heat_ElectricityHeat_Small,#6fbeee
 Heatpump large,#36b07b
-SecondaryEnergy_Heat_Electricity_Large,#36b07b
-EnergyConversion_SecondaryEnergy_Heat_Electricity_Large,#36b07b
-Resistance heating,#36b07b
+Large heatpump,#36b07b
+SecondaryEnergy_Heat_Electricity_Large,#d82b2b
+EnergyConversion_SecondaryEnergy_Heat_Electricity_Large,#d82b2b
+Resistance heating,#d82b2b
 Hydro reservoir,#033996
 Capacity_Heat_Electricity_Large,#36b07b
 Losses_Electricity_Hydro_Reservoir,#0d1692
 EnergyConversion_SecondaryEnergy_Electricity_Hydro_ReservoirPump,#1786bd
-Hydro reservoir pump,#1786bd
+Hydro reservoir pump REMOVED,#1786bd
 SecondaryEnergy_Electricity_Hydro_ReservoirPump,#1786bd
 EnergyConversion_SecondaryEnergy_Electricity_Hydro_ReservoirTurbine,#033996
 SecondaryEnergy_Electricity_Hydro_ReservoirTurbine,#033996
@@ -50,6 +52,7 @@ CH4GT,#d62728
 CH4 GT,#d62728
 Combustible Fuels,#d62728
 Capacity_Heat_CH4_Large,#d46566
+CH4 boiler large,#d46566
 SecondaryEnergy_Electricity_CH4_GT,#d62728
 CH4_GT,#d62728
 EnergyConversion_SecondaryEnergy_Electricity_CH4_GT,#d62728
@@ -58,6 +61,7 @@ EnergyConversion_SecondaryEnergy_Heat_Gas_Large,#b07911
 SecondaryEnergy_Electricity_ElectricityHeat_CH4_ExCCGT,#a81bc3
 EnergyConversion_SecondaryEnergy_Electricity_ElectricityHeat_CH4_ExCCGT,#a81bc3
 EnergyConversion_SecondaryEnergy_Heat_ElectricityHeat_CH4_ExCCGT,#a81bc3
+Co-generation turbine,#a81bc3
 SecondaryEnergy_Heat_ElectricityHeat_CH4_ExCCGT,#ca71db
 Capacity_ElectricityHeat_CH4_ExCCGT,#e0a2ec
 CapacityElectricityHeatCH4ExCCGT,#e0a2ec
@@ -71,6 +75,7 @@ Import,#17becf
 Shortage,#ff7f0e
 Export,#8c564b
 Curtailment,#7f7f7f
+Excess heat,#7f7f7f
 Curtailment_Electricity_RE,#7f7f7f
 EnergyConversion_Curtailment_Electricity_RE,#7f7f7f
 Demand,#000000
@@ -98,7 +103,12 @@ Storage_Output_Heat_SmallStorage,#e5a305
 Storage_Output_Heat_LargeStorage,#f4df0b
 Storage_Capacity_Electricity_H2CavernStorage,#1bbf9a
 Storage_Capacity_H2_H2CavernStorage,#1bbf9a
+Large storage charge,#f4df0b
+Large storage discharge,#c1a814
+H2Cavern,#1bbf9a
 H2 demand,#1bbf9a
+H2 cavern charge,#afffed
+H2 cavern discharge,#0ff1ce
 Energy_FinalEnergy_Electricity,#000000
 Energy_FinalEnergy_Electricity_H2,#5f7c83
 Energy_FinalEnergy_Heat_CHP,#292585
@@ -114,7 +124,7 @@ Transmission_Losses_Electricity_Grid,#69679f
 Transport_AnnualDemand_Electricity_Cars,#4740ec
 Transport_FeedIn_DrivePower_Electricity,#a4a1e3
 BEV charge,#a4a1e3
-BEV to grid,#a4a1e3
+BEV to grid,#b805b1
 
 EnergyConversion_Capacity_Electricity_CH4_GT,#d62728
 EnergyConversion_Capacity_Electricity_Solar_PV,#bcbd22
@@ -129,5 +139,6 @@ EnergyConversion_Capacity_Heat_ElectricityHeat_Small,#6fbeee
 EnergyConversion_Capacity_Electricity_Hydro_ReservoirStorage,#033996
 Storage_Capacity_Electricity_LiIonBatteryStorage,#cdb79e
 Storage_Capacity_Heat_LargeStorage,#ce2863
+Large,#ce2863
 Storage_Capacity_Heat_SmallStorage,#dd8ca8
 Storage_Capacity_H2_CavernStorage,#1bbf9a
