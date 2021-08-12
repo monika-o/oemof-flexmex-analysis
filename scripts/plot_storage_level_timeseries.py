@@ -12,33 +12,57 @@ import analysis.dispatch_plots as plots
 from analysis.plot import plot_timeseries
 import datetime
 
-df = pd.DataFrame()
-technologies = ['Charging', 'FeedIn']
+df_out = pd.DataFrame()
+df_minmax = pd.DataFrame()
+df_in = pd.DataFrame()
+parameters_out = ['Charging', 'FeedIn']
+battery_levels = ['MaxBatteryLevel', 'MinBatteryLevel']
+
 scenario = '2a'
 start_date='2050-02-01 00:00:00'
 end_date='2050-03-01 00:00:00'
 datetimeindex = pd.date_range(start="2050-01-01", periods=8760, freq="H")
-for technology in technologies:
-    # choose 'Heat' or 'Electricity' manually
+for parameter in parameters_out:
     input_file = os.path.join(os.path.dirname(__file__), '../../oemof-flexmex/results/FlexMex2_107/FlexMex2_'+scenario+'/Transport/'
-                                                     'BEV/'+technology+'/FlexMex2_'+scenario+'_oemof_DE_2050.csv')
+                                                     'BEV/'+parameter+'/FlexMex2_'+scenario+'_oemof_DE_2050.csv')
     helper_df = pd.read_csv(input_file)
 
-    df[technology] = helper_df.iloc[:, 1]
-df = df / 1000 # conversion from MWh to GWh
-df.set_index(datetimeindex, inplace=True)
-df = plots.filter_timeseries(df, start_date, end_date)
+    df_out[parameter] = helper_df.iloc[:, 1]
 
-# detailed plot over entire year
-fig, ax = plt.subplots(figsize=(14,5), linewidth=20)
-ax.plot(df)
-# plt.legend(df.columns, loc="best") # activate if more than one line is plotted
-title = 'BEV charging and FeedIn in FlexMex2_'+scenario
-plt.title(title)
-#ax.set_xticks([365, 1095, 1825, 2555, 3285, 4015, 4745, 5475, 6205, 6935, 7665, 8395])
-#ax.set_xticklabels(['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September',
-#                    'October', 'November', 'December'])
-plt.ylabel('BEV chargin and FeedIn in GWh', fontsize = 12)
-plt.legend(df.columns)
-plt.tight_layout()
-plt.savefig(os.path.join(os.path.dirname(__file__), '../results/timeseries/' + title), bbox_inches='tight')
+for parameter in battery_levels:
+    input_file = os.path.join(os.path.dirname(__file__), '../../oemof-flexmex/data/In/v0.09/OtherProfiles/Transport/'
+                              +parameter+'/FlexMex2_DE_2050.csv')
+    helper_df = pd.read_csv(input_file)
+
+    df_minmax[parameter] = helper_df.iloc[:, 1]
+
+    df_minmax = df_minmax #* 4690574 * 2.2E-05 #GWh
+
+for parameter in ['DrivePower', 'GridArrivalabilityRate']:
+    input_file = os.path.join(os.path.dirname(__file__), '../../oemof-flexmex/data/In/v0.09/OtherProfiles/Transport/'
+                              +parameter+'/FlexMex2_DE_2050.csv')
+    helper_df = pd.read_csv(input_file)
+
+    df_in[parameter] = helper_df.iloc[:, 1]
+
+title_dict = {
+    'df_out': "BEV charging and FeedIn in FlexMex2_"+scenario,
+    'df_minmax': "Minimum and maximum battery charging levels",
+    'df_in': "Drive power and grid arrival ability rate"
+}
+
+def plot (df, title, ylabel, start_date = start_date, end_date = end_date):
+    df.set_index(datetimeindex, inplace=True)
+    df = plots.filter_timeseries(df, start_date, end_date)
+    fig, ax = plt.subplots(figsize=(14,5), linewidth=20)
+    ax.plot(df)
+    title = title
+    plt.title(title)
+    plt.ylabel(ylabel, fontsize = 12)
+    plt.legend(df.columns)
+    plt.tight_layout()
+    plt.savefig(os.path.join(os.path.dirname(__file__), '../results/timeseries/' + title), bbox_inches='tight')
+
+plot(df_out, title_dict['df_out'], 'dont know')
+plot(df_in, title_dict['df_in'], 'Share of storage or charging capacity')
+plot(df_minmax, title_dict['df_minmax'], 'Share of storage capacity')
