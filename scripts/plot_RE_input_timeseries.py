@@ -3,7 +3,11 @@ import matplotlib.pyplot as plt
 
 from analysis.plot import preprocessing_timeseries
 from analysis.plot import plot_timeseries
+import analysis.dispatch_plots as plots
 
+start_date='2050-02-01 00:00:00'
+end_date='2050-03-01 00:00:00'
+datetimeindex = pd.date_range(start="2050-01-01", periods=8760, freq="H")
 country = 'DE'
 timeseries = ['Wind/Offshore', 'Wind/Onshore', 'Solar/PV', 'Hydro/Reservoir/PowerIn', 'Hydro/Reservoir/PowerOut']
 
@@ -20,6 +24,12 @@ for i in range(len(timeseries)):
 #    title = timeseries[i] + ' time series in ' + country + ', 1 day'
 #    title = title.replace('/', ' ')
 #    plot_timeseries(df_in, 'day', country, title, 'hours', 'kW/kW installed capacity')
+    df = pd.DataFrame(df_in)
+    df.set_index(datetimeindex, inplace=True)
+    df = plots.filter_timeseries(df, start_date, end_date)
+    title = timeseries[i] + ' time series in ' + country + ', February'
+    title = title.replace('/', ' ')
+    plot_timeseries(df, 'year_hourly', country, title, 'hours', 'kW/kW installed capacity')
 
 # similar procedure for COP
 df_in = preprocessing_timeseries('../../oemof-flexmex/data/In/v0.09/OtherProfiles/COP/FlexMex2_' + country + '_2050.csv',
