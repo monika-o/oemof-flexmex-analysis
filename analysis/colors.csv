@@ -1,5 +1,6 @@
 Color
 Extraction CHP,#292585
+Co-generation turbine,#a81bc3
 Solar_PV,#bcbd22
 SolarPV,#bcbd22
 Solar PV,#bcbd22
@@ -62,7 +63,6 @@ EnergyConversion_SecondaryEnergy_Heat_Gas_Large,#b07911
 SecondaryEnergy_Electricity_ElectricityHeat_CH4_ExCCGT,#a81bc3
 EnergyConversion_SecondaryEnergy_Electricity_ElectricityHeat_CH4_ExCCGT,#a81bc3
 EnergyConversion_SecondaryEnergy_Heat_ElectricityHeat_CH4_ExCCGT,#a81bc3
-Co-generation turbine,#a81bc3
 SecondaryEnergy_Heat_ElectricityHeat_CH4_ExCCGT,#ca71db
 Capacity_ElectricityHeat_CH4_ExCCGT,#e0a2ec
 CapacityElectricityHeatCH4ExCCGT,#e0a2ec
