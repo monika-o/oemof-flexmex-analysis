@@ -269,6 +269,10 @@ def plot_dispatch(
             # df_demand = (df[i] * -1).to_frame()
             # The above command replaces the second demand by the first if they are more than 1
             df.drop(columns=[i], inplace=True)
+            if len(df_demand.columns) > 1:
+                df_demand = df_demand.sum(axis=1)
+                df_demand = df_demand.to_frame()
+                df_demand.columns = [(bus_name, bus_name+'-demand', 'flow')]
 
     # rename column names to match labels
     df = map_labels(df, general_labels_dict)
