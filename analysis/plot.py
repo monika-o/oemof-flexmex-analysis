@@ -78,7 +78,7 @@ def preprocessing_timeseries (inputdatapath, type):
     return(df_in)
 
 def plot_timeseries (df_in, timeframe, label, title, xlabel, ylabel):
-    fig, ax = plt.subplots(figsize=(6,2))
+    fig, ax = plt.subplots(figsize=(23,9))
     if timeframe == 'weeks':
         ax.plot(df_in.iloc[0:168 * 4])#, label=label)
     elif timeframe == 'year_hourly':
