@@ -7,6 +7,7 @@ import numpy as np
 from collections import OrderedDict
 from analysis.helpers import load_yaml
 from analysis.preprocessing_scalars import generate_labels
+import analysis.dispatch_plots as plots
 
 dir_name = os.path.abspath(os.path.dirname(__file__))
 
@@ -63,11 +64,13 @@ def stacked_scalars(df_plot, demand, title, ylabel, xlabel):
         labels.insert(0, 'Demand')
         print(demand)
     plt.axhline(0, color='black', label='_nolegend_')
-    plt.title(title)
+#    plt.title(title)
 
-    plt.xlabel(xlabel, fontsize = 12)
-    plt.ylabel(ylabel, fontsize = 12)
-    plt.legend(labels, bbox_to_anchor=(1,1), loc="upper left")
+    plt.xlabel(xlabel, fontsize = 20)
+    plt.ylabel(ylabel, fontsize = 20)
+    plt.legend(labels, fontsize = 15, loc="upper left") #, bbox_to_anchor=(1,1)
+    plt.xticks(fontsize=15)
+    plt.yticks(fontsize=15)
     plt.savefig(os.path.join(os.path.dirname(__file__), '../results/' + title), bbox_inches='tight')
 
 def preprocessing_timeseries (inputdatapath, type):
@@ -78,7 +81,7 @@ def preprocessing_timeseries (inputdatapath, type):
     return(df_in)
 
 def plot_timeseries (df_in, timeframe, label, title, xlabel, ylabel):
-    fig, ax = plt.subplots(figsize=(23,9))
+    fig, ax = plt.subplots(figsize=(6,2))#(figsize=(23,9))
     if timeframe == 'weeks':
         ax.plot(df_in.iloc[0:168 * 4])#, label=label)
     elif timeframe == 'year_hourly':
@@ -105,14 +108,32 @@ def plot_timeseries (df_in, timeframe, label, title, xlabel, ylabel):
             end = (i+1)*168
             week_mean = df_in.iloc[range(start, end)].mean()
             ar[i] = week_mean
-        ax.plot(ar, label = label)
+        ax.plot(ar)#, label = label)
     elif timeframe == 'day':
         ax.plot(df_in.iloc[range(6*168, 6*168 + 24)], label=label) # the first day of the sixth week - the choice of the day is arbitrary
     else:
         print('Only day, weeks, year and year-rough are possible timeframes')
-    ax.set_title(title, fontsize = 15)
+    #ax.set_title(title, fontsize = 15)
     ax.set_ylabel(ylabel, fontsize = 13)
     ax.set_xlabel(xlabel, fontsize = 13)
     #ax.legend(label)  # loc='upper center', bbox_to_anchor=(1.45, 0.8), shadow=True, ncol=1)
     plt.savefig(os.path.join(os.path.dirname(__file__), '../results/timeseries/' + title), bbox_inches='tight')
     # TODO: adjust x-axis depending on timeframe (days or months would be good, not hours)
+
+def filter_timeseries(df, start_date, end_date):
+    datetimeindex = pd.date_range(start="2050-01-01", periods=8760, freq="H")
+    df.set_index(datetimeindex, inplace=True)
+    df = plots.filter_timeseries(df, start_date, end_date)
+    return df
+
+def plot_date_series (df, title, ylabel, start_date, end_date):
+    df = filter_timeseries(df, start_date=start_date, end_date=end_date)
+    fig, ax = plt.subplots(figsize=(14,5), linewidth=20)
+    for i in df.columns:
+        ax.plot(df.index, df[i], color=colors_odict[i])
+    title = title
+    plt.title(title)
+    plt.ylabel(ylabel, fontsize = 12)
+    plt.legend(df.columns)
+    plt.tight_layout()
+    plt.savefig(os.path.join(os.path.dirname(__file__), '../results/timeseries/' + title), bbox_inches='tight')
