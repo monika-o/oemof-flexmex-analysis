@@ -2,17 +2,18 @@ EnergyConversion_Capacity_Electricity_CH4_GT: Gas turbine
 EnergyConversion_Capacity_Electricity_Solar_PV: Solar PV
 EnergyConversion_Capacity_Electricity_Wind_Offshore: Wind offshore
 EnergyConversion_Capacity_Electricity_Wind_Onshore: Wind onshore
-Storage_Capacity_Electricity_LiIonBatteryStorage: Li-ion battery storage
 EnergyConversion_Capacity_Electricity_Hydro_ReservoirTurbine: Hydro reservoir turbine
-EnergyConversion_Capacity_ElectricityHeat_CH4_ExCCGT: Co-generation turbine
+EnergyConversion_Capacity_ElectricityHeat_CH4_ExCCGT: Extraction CHP
+EnergyConversion_Capacity_Heat_CHP: Extraction CHP
 EnergyConversion_Capacity_Heat_CH4_Large: Gas boiler
 EnergyConversion_Capacity_Heat_Electricity_Large: Resistance heating
 EnergyConversion_Capacity_Heat_ElectricityHeat_Large: Large heat pump
 EnergyConversion_Capacity_Heat_ElectricityHeat_Small: Small heat pump
 EnergyConversion_Capacity_Electricity_Hydro_ReservoirStorage: Hydro reservoir
-Storage_Capacity_Heat_LargeStorage: Large heat storage
-Storage_Capacity_Heat_SmallStorage: Small heat storage
+Storage_Capacity_Heat_LargeStorage: Central heat storage
+Storage_Capacity_Heat_SmallStorage: Decentralised heat storage
 Storage_Capacity_H2_CavernStorage: H2 cavern
+Storage_Capacity_Electricity_LiIonBatteryStorage: Li-ion battery storage
 
 EnergyConversion_SecondaryEnergy_Electricity_CH4_GT: Gas turbine
 EnergyConversion_SecondaryEnergy_Electricity_RE: Renewable energies
@@ -24,6 +25,7 @@ Transmission_Outgoing: Export
 EnergyConversion_SecondaryEnergy_Electricity_ElectricityHeat_CH4_ExCCGT: Co-generation turbine
 EnergyConversion_SecondaryEnergy_Electricity_Hydro_ReservoirTurbine: Hydro reservoir turbine
 Transport_FeedIn_DrivePower_Electricity: BEV feed-in #TODO: change
+Storage_Capacity_BEV: BEV
 EnergyConversion_SecondaryEnergy_Heat_Electricity_Large: Restistance heating
 EnergyConversion_SecondaryEnergy_Heat_ElectricityHeat_CH4_ExCCGT: Cogeneration turbine
 EnergyConversion_SecondaryEnergy_Heat_ElectricityHeat_Large: Large heat pump
@@ -33,13 +35,13 @@ EnergyConversion_SecondaryEnergy_Heat_Slack: Slack
 Storage_Losses_Electricity_LiIonBatteryStorage: Losses lithium-ion battery
 Storage_Losses_H2_H2CavernStorage: Losses H2 cavern
 Storage_Losses_H2_H2TankStorage: Losses H2 tank
-Storage_Losses_Heat_LargeStorage: Losses large heat storage
-Storage_Losses_Heat_SmallStorage: Losses small heat storage
+Storage_Losses_Heat_LargeStorage: Losses central heat storage
+Storage_Losses_Heat_SmallStorage: Losses decentralised heat storage
 Storage_Output_Electricity_LiIonBatteryStorage: Output lithium-ion battery
 Storage_Output_H2_H2CavernStorage: Output H2 cavern
 Storage_Output_H2_H2TankStorage: Output H2 tank
-Storage_Output_Heat_LargeStorage: Output large heat storage
-Storage_Output_Heat_SmallStorage: Output small heat storage
+Storage_Output_Heat_LargeStorage: Output central heat storage
+Storage_Output_Heat_SmallStorage: Output decentralised heat storage
 Transport_Shifting_DrivePower_Electricity: Shifting_DrivePower
 
 Energy_EmissionCost_CO2: CO2 emission costs
@@ -54,6 +56,6 @@ EnergyConversion_VarOM_Heat_ElectricityHeat_Small: VarOM small heatpump
 EnergyConversion_VarOM_Heat_Gas_Large: VarOM gas large
 Storage_VarOM_Electricity_LiIonBatteryStorage: VarOM lithium-ion battery
 Storage_VarOM_H2_H2CavernStorage: VarOM H2 cavern
-Storage_VarOM_Heat_LargeStorage: VarOM large heat storage
-Storage_VarOM_Heat_SmallStorage: VarOM small heat storage
+Storage_VarOM_Heat_LargeStorage: VarOM central heat storage
+Storage_VarOM_Heat_SmallStorage: VarOM decentralised heat storage
 Transport_VarOM_DrivePower_Electricity: VarOM transport
