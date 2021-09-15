@@ -103,6 +103,7 @@ def electricity_storage_capacity_FlexMex2_2(plot_data, onxaxes):
     plot_data = plot_data.loc[plot_data['Parameter'].isin(parameters)]
     df_plot_el_stor_cap_FlexMex2_2 = pd.crosstab(index=plot_data[onxaxes], columns=plot_data.Parameter,
                                                          values=plot_data.Value, aggfunc='mean')
+    df_plot_el_stor_cap_FlexMex2_2['Storage_Capacity_BEV'] = [1032, 1032, 1032, 1032] # BEV storage capacity in Germany
     return df_plot_el_stor_cap_FlexMex2_2
 
 def heat_storage_capacity_FlexMex2_2(plot_data, onxaxes):
@@ -121,6 +122,7 @@ def heat_conversion_capacity_FlexMex2_2(plot_data, onxaxes):
     plot_data = plot_data.loc[plot_data['Parameter'].isin(parameters)]
     df_plot_he_conv_cap_FlexMex2_2 = pd.crosstab(index=plot_data[onxaxes], columns=plot_data.Parameter,
                                                          values=plot_data.Value / 1000, aggfunc='mean')
+    df_plot_he_conv_cap_FlexMex2_2['EnergyConversion_Capacity_Heat_CHP'] = [91.588, 91.588, 91.588, 91.588] # DE, ratio 1.25
     return df_plot_he_conv_cap_FlexMex2_2
 
 
