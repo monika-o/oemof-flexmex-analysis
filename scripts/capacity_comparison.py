@@ -4,39 +4,52 @@ capacities from the statistical country datasheet of the EU commission.
 """
 import pandas as pd
 import os
-from analysis.plot import preprocessing_stacked_scalars
+import analysis.preprocessing_scalars
+import preprocessing_scalars
 from analysis.plot import stacked_scalars
 from analysis.plot import import_countrydatasheet_data
 
-region = 'CZ'
-scenario = 'FlexMex2_2a' # also change in Input Data file
+region = 'DE'
+scenario = 'FlexMex2_1a' # also change in Input Data file
 
-input_data = os.path.join(os.path.dirname(__file__), '../../oemof-flexmex/results/FlexMex2/Scalars.csv')
+input_data = os.path.join(os.path.dirname(__file__), '../../oemof-flexmex/results/FlexMex2_107/Scalars.csv')
 df_in = pd.read_csv(input_data)
-df_in = df_in.drop(['Modell', 'Year', 'Comment'], axis = 1)
-df_in = df_in.loc[df_in['UseCase'] == scenario, :]
 
 df_region = df_in.loc[df_in['Region'] == region, :]
-df_region_MW = df_region.loc[df_region['Unit'].str.contains('MW'), :]
-conversion_heat, conversion_electricity, storage_heat, storage_electricity, capacity_electricity, capacity_heat =\
-    preprocessing_stacked_scalars(df_region_MW, 1, 'Region')
+df_region.rename(columns={"UseCase": "Scenario"}, inplace=True)
+
+if 'FlexMex2_1' in scenario:
+    capacity_electricity = preprocessing_scalars.electricity_conversion_capacity_FlexMex2_1(df_region, 'Scenario')
+if 'FlexMex2_2' in scenario:
+    capacity_electricity = preprocessing_scalars.electricity_conversion_capacity_FlexMex2_2(df_region, 'Scenario')
 
 df1, sheet_name = import_countrydatasheet_data(region, 285, 9)
 df2 = df1[df1.columns[[29]]]
 df2 = df2.transpose()
+df2 = df2 / 1000
 df2.index = ['EC statistics 2019']
 
+df_oemof = capacity_electricity.loc[scenario, :]
+df_oemof['Wind'] = df_oemof['EnergyConversion_Capacity_Electricity_Wind_Offshore'] + \
+                   df_oemof['EnergyConversion_Capacity_Electricity_Wind_Onshore']
+df_oemof = df_oemof.drop(labels = ['EnergyConversion_Capacity_Electricity_Wind_Offshore', 'EnergyConversion_Capacity_Electricity_Wind_Onshore'])
+
+
+df_oemof = df_oemof.rename({
+                 'EnergyConversion_Capacity_Electricity_CH4_GT': 'Gas turbine',
+                 'EnergyConversion_Capacity_Electricity_Solar_PV': 'Solar PV'})
 if 'FlexMex2_2' in scenario:
-    capacity_electricity.index = [scenario]
-    df_conc = pd.concat([capacity_electricity, df2])
+    df_oemof.rename({'EnergyConversion_Capacity_ElectricityHeat_CH4_ExCCGT': 'Extraction CHP'})
 
-elif 'FlexMex2_1' in scenario:
-    conversion_electricity.index = [scenario]
-    df_conc = pd.concat([conversion_electricity, df2])
+df2 = df2.append(df_oemof)
 
-df_conc = df_conc / 1000
-
-stacked_scalars(df_plot=df_conc,  demand = 0, title='Comparison of electricity conversion capacities in ' + scenario + ' with reality 2019 in ' + region,
+if 'FlexMex2_2' in scenario:
+    df2 = df2.reindex(columns=['Wind', 'Solar PV', 'Combustible Fuels', 'Gas turbine', 'Extraction CHP', 'Nuclear',
+                           'Geothermal', 'Solar Thermal', 'Tide, Wave and Ocean', 'Hydro', 'Other Sources'])
+if 'FlexMex2_1' in scenario:
+    df2 = df2.reindex(columns=['Wind', 'Solar PV', 'Combustible Fuels', 'Gas turbine', 'Nuclear',
+                           'Geothermal', 'Solar Thermal', 'Tide, Wave and Ocean', 'Hydro', 'Other Sources'])
+stacked_scalars(df_plot=df2,  demand = 0, title='Comparison of electricity conversion capacities in ' + scenario + ' with reality 2019 in ' + region,
                 ylabel='GW', xlabel='')
 
 # TODO: make colors.scv more flexible so and harmonise labels so that e.g. Solar_PV and Solar PV are the same.
