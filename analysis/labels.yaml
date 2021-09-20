@@ -20,13 +20,13 @@
 !!python/tuple ['-electricity', '-NL', 'flow']: Transmission Out
 !!python/tuple ['-electricity', '-PL', 'flow']: Transmission Out
 !!python/tuple ['-electricity', '-DE', 'flow']: Transmission Out
-!!python/tuple ['-ch4-gt', '-electricity', 'flow']: CH4
+!!python/tuple ['-ch4-gt', '-electricity', 'flow']: Gas turbine
 !!python/tuple ['-electricity', '-electricity-curtailment', 'flow']: Curtailment
 !!python/tuple ['-electricity', '-electricity-demand', 'flow']: El. demand
 !!python/tuple ['-electricity', '-electricity-liion-battery', 'flow']: BAT charge
 !!python/tuple ['-electricity-liion-battery', '-electricity', 'flow']: BAT discharge
 !!python/tuple ['-electricity-shortage', '-electricity', 'flow']: Shortage
-!!python/tuple ['-solar-pv', '-electricity', 'flow']: PV
+!!python/tuple ['-solar-pv', '-electricity', 'flow']: Solar PV
 !!python/tuple ['-wind-onshore', '-electricity', 'flow']: Wind onshore
 !!python/tuple ['-wind-offshore', '-electricity', 'flow']: Wind offshore
 !!python/tuple ['-ch4-extchp', '-electricity', 'flow']: Extraction CHP
@@ -41,19 +41,19 @@
 !!python/tuple ['-electricity', '-hydro-reservoir-pump', 'flow']: Hydro reservoir pump
 !!python/tuple ['-hydro-reservoir', '-electricity', 'flow']: Hydro reservoir
 
-!!python/tuple ['-ch4-boiler-large', '-heat_central', 'flow']: CH4 boiler large
-!!python/tuple ['-ch4-extchp', '-heat_central', 'flow']: Co-generation turbine
+!!python/tuple ['-ch4-boiler-large', '-heat_central', 'flow']: Gas boiler
+!!python/tuple ['-ch4-extchp', '-heat_central', 'flow']: Extraction CHP
 !!python/tuple ['-electricity-heatpump-large', '-heat_central', 'flow']: Large heatpump
 !!python/tuple ['-electricity-heatpump-small', '-heat_decentral', 'flow']: Small heatpump
 !!python/tuple ['-electricity-pth', '-heat_central', 'flow']: Resistance heating
 !!python/tuple ['-heat_central', '-heat_central-excess', 'flow']: Excess heat
 !!python/tuple ['-heat_decentral', '-heat_decentral-excess', 'flow']: Excess heat
-!!python/tuple ['-heat_central', '-heat_central-storage-large', 'flow']: Large storage charge
-!!python/tuple ['-heat_decentral', '-heat_decentral-storage-small', 'flow']: Small storage charge
+!!python/tuple ['-heat_central', '-heat_central-storage-large', 'flow']: Central storage charge
+!!python/tuple ['-heat_decentral', '-heat_decentral-storage-small', 'flow']: Decentralised storage charge
 !!python/tuple ['-heat_central-shortage', '-heat_central', 'flow']: Shortage
 !!python/tuple ['-heat_decentral-shortage', '-heat_decentral', 'flow']: Shortage
-!!python/tuple ['-heat_central-storage-large', '-heat_central', 'flow']: Large storage discharge
-!!python/tuple ['-heat_decentral-storage-small', '-heat_decentral', 'flow']: Small storage discharge
+!!python/tuple ['-heat_central-storage-large', '-heat_central', 'flow']: Central storage discharge
+!!python/tuple ['-heat_decentral-storage-small', '-heat_decentral', 'flow']: Decentralised storage discharge
 !!python/tuple ['-heat_central', '-heat_central-demand', 'flow']: Demand
 !!python/tuple ['-heat_decentral', '-heat_decentral-demand', 'flow']: Demand
 
