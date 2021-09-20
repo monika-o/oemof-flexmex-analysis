@@ -11,4 +11,4 @@ myself.
 
 
 ##Model structure
-![image info](../Diagrams/diagram_scenario_2_2.svg)
+![image info](diagram_scenario_2_2.png)
