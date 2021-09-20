@@ -1,4 +1,6 @@
 import math
+import os.path
+
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -22,4 +24,4 @@ ax.set_ylabel('storage in GWh')
 ax.set_xlabel('hours')
 plt.legend()
 
-plt.show()
+plt.savefig(os.path.join(os.path.dirname(__file__), '../results/storage_functions.png'))
