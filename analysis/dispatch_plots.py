@@ -1,9 +1,12 @@
+# This script has been and slightly adjusted from the oemof-flexmex project.
+
 import numpy as np
 import pandas as pd
 import os
 from collections import OrderedDict
 from matplotlib.ticker import EngFormatter
 import analysis.helpers as helpers
+import matplotlib.pyplot as plt
 
 pd.plotting.register_matplotlib_converters()
 
@@ -229,7 +232,9 @@ def lineplot(ax, df, colors_odict=colors_odict):
 
     for i in df.columns:
         ax.plot(df.index, df[i], color=colors_odict[i], label=i)
-        ax.legend()
+        ax.legend(fontsize = 20)
+    plt.xticks(fontsize=20)
+    plt.yticks(fontsize=20)
 
 
 def plot_dispatch(
